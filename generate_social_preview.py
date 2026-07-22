@@ -13,7 +13,7 @@ for width, height, name in [
     img = Image.new('RGB', (width, height), '#000000')
     draw = ImageDraw.Draw(img)
 
-    title = 'Notary PM'
+    title = 'Notaries'
     bbox = draw.textbbox((0, 0), title, font=main_font)
     text_w = bbox[2] - bbox[0]
     text_h = bbox[3] - bbox[1]

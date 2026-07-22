@@ -1,4 +1,4 @@
-Notary PM — Local preview
+Notaries — Local preview
 
 How to enable Google Maps iframe embed
 
@@ -36,7 +36,7 @@ Notes and limits
 - Nominatim usage policy forbids heavy automated use — consider paid geocoding or caching results on your server.
 - This approach completely avoids Google Cloud Console and API keys.
 
-How to make Notary PM a satellite of hannadunchenko.com
+How to make Notaries a satellite of hannadunchenko.com
 
 - Provide shared settings in `Notary PM/config.js`:
 	- `window.SHARED_SETTINGS.mainDomain` — primary domain.
