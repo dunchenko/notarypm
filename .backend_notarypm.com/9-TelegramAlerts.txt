@@ -1,0 +1,573 @@
+/*
+  Telegram operational sending helpers and booking/admin alert builders.
+*/
+
+function sendTelegramMessageInternal(text, options) {
+  const tgToken = getTelegramToken();
+  const chatIds = getTelegramChatIds();
+  if (!tgToken || !chatIds.length) return { success: false, skipped: true, error: 'Telegram config missing.' };
+  const includeLessonStory = !options || options.includeLessonStory !== false;
+  const lessonStory = includeLessonStory ? getNextTelegramLessonStory() : '';
+  const finalText = truncate(
+    [normalizeMultiLine(text || ''), lessonStory].filter(Boolean).join('\n\n'),
+    3900
+  );
+
+  const errors = [];
+  let sent = 0;
+  chatIds.forEach((chatId) => {
+    try {
+      const response = UrlFetchApp.fetch('https://api.telegram.org/bot' + tgToken + '/sendMessage', {
+        method: 'post',
+        contentType: 'application/json; charset=UTF-8',
+        muteHttpExceptions: true,
+        payload: JSON.stringify({
+          chat_id: chatId,
+          text: finalText,
+          disable_web_page_preview: true
+        })
+      });
+      const status = response.getResponseCode();
+      const body = String(response.getContentText() || '');
+      let parsed = null;
+      try {
+        parsed = JSON.parse(body);
+      } catch (e) {}
+      if (status < 200 || status >= 300 || !parsed || parsed.ok !== true) {
+        const apiDescription = parsed && parsed.description ? parsed.description : `HTTP ${status}`;
+        errors.push(`chat ${chatId}: ${apiDescription}`);
+        return;
+      }
+      sent += 1;
+    } catch (err) {
+      errors.push(`chat ${chatId}: ${err && err.message ? err.message : 'Unknown error'}`);
+    }
+  });
+
+  if (!sent) {
+    return { success: false, error: errors.join(' | ') || 'Telegram send failed.' };
+  }
+  return { success: true, sent: sent, failed: errors.length, warnings: errors };
+}
+
+
+function sendTelegramTextMessage(text) {
+  return sendTelegramMessageInternal(text, { includeLessonStory: true });
+}
+
+
+function sendOperationalTelegramAlert(text) {
+  return sendTelegramMessageInternal(text, { includeLessonStory: false });
+}
+
+
+function sendTelegram(data, uploadedFiles, databaseSheetUrl, sheetWrite, context) {
+  const tgToken = getTelegramToken();
+  const chatIds = getTelegramChatIds();
+  if (!tgToken || !chatIds.length) {
+    throw new Error('Telegram config missing: TG_TOKEN or TG_CHAT_IDS is empty in Script Properties.');
+  }
+
+  function sendTelegramChunk(text) {
+    const chunkErrors = [];
+    let sentCount = 0;
+    chatIds.forEach((chatId) => {
+      try {
+        const response = UrlFetchApp.fetch('https://api.telegram.org/bot' + tgToken + '/sendMessage', {
+          method: 'post',
+          contentType: 'application/json; charset=UTF-8',
+          muteHttpExceptions: true,
+          payload: JSON.stringify({
+            chat_id: chatId,
+            text: text,
+            parse_mode: 'HTML',
+            disable_web_page_preview: true
+          })
+        });
+
+        const status = response.getResponseCode();
+        const body = String(response.getContentText() || '');
+        let parsed = null;
+        try {
+          parsed = JSON.parse(body);
+        } catch (e) {}
+
+        if (status < 200 || status >= 300 || !parsed || parsed.ok !== true) {
+          const apiDescription = parsed && parsed.description ? parsed.description : 'No description';
+          chunkErrors.push(`chat ${chatId}: HTTP ${status}. ${apiDescription}`);
+          return;
+        }
+        sentCount += 1;
+      } catch (err) {
+        chunkErrors.push(`chat ${chatId}: ${err && err.message ? err.message : 'Unknown error'}`);
+      }
+    });
+
+    if (!sentCount) {
+      throw new Error(`Telegram send failed for all chats. ${chunkErrors.join(' | ')}`);
+    }
+    if (chunkErrors.length) {
+      Logger.log('Telegram partial send warning: ' + chunkErrors.join(' | '));
+    }
+  }
+
+  const clientFolderOpenUrl = buildDriveFolderOpenUrl(
+    context && context.folderId ? context.folderId : '',
+    context && context.folderUrl ? context.folderUrl : ''
+  );
+  const userUploadedFiles = getUserUploadedFiles(uploadedFiles);
+  const fileLines = [];
+  if (clientFolderOpenUrl) {
+    fileLines.push(`<a href="${escapeHtml(clientFolderOpenUrl)}">📁 Open client folder</a>`);
+  }
+  if (userUploadedFiles && userUploadedFiles.length) {
+    userUploadedFiles.forEach((f, idx) => {
+      if (!f) return;
+      const name = truncate(normalizeSingleLine(f.name || `file-${idx + 1}`), 120);
+      const url = buildDriveFileOpenUrl(f && f.id, (f && f.url) || '') || clientFolderOpenUrl || '';
+      if (url) {
+        fileLines.push(`<a href="${escapeHtml(url)}">${idx + 1}. ${escapeHtml(name)}</a>`);
+      } else {
+        fileLines.push(`${idx + 1}. ${escapeHtml(name)}`);
+      }
+    });
+  } else {
+    fileLines.push('No uploaded files');
+  }
+  const lessonStory = getNextTelegramLessonStory(data);
+
+  const rawModeValue = normalizeSingleLine(data.serviceMode || data.service_mode || data.mode || 'Online') || 'Online';
+  const modeKeyRaw = rawModeValue.toLowerCase().replace(/[^a-z]/g, '');
+  const modeEmoji = modeKeyRaw === 'inperson' ? '🤝' : '🟢';
+  const modeDisplay = modeKeyRaw === 'inperson' ? 'In-Person' : (modeKeyRaw === 'online' ? 'Online' : rawModeValue);
+
+  const lines = [
+    '<b>🆕 NEW LEAD</b>',
+    `👤 Name: ${escapeHtml(normalizeSingleLine(data.name))}`,
+    `💼 Occupation: ${escapeHtml(normalizeSingleLine(data.occupation || ''))}`,
+    `📧 Email: ${escapeHtml(normalizeSingleLine(data.email))}`,
+    `📞 Phone: ${formatPhoneForTelegram(data.phone)}`,
+    `🧾 Service: ${escapeHtml(normalizeSingleLine(getBookingServiceDisplayText(data) || data.service || 'N/A'))}`,
+    `${modeEmoji} Service Option: ${escapeHtml(modeDisplay)}`,
+    `🎂 DOB: ${escapeHtml(normalizeSingleLine(data.dob || ''))}`,
+    `🧑 Age: ${escapeHtml(normalizeSingleLine(data.age || ''))}`,
+    `📍 Address: ${escapeHtml(normalizeSingleLine(data.address || 'N/A'))}`,
+    `📅 Appointment: ${escapeHtml(normalizeSingleLine(data.dateStr || ''))}`,
+    data.referralSource ? `📣 Referral Source: ${escapeHtml(normalizeSingleLine(data.referralSource))}` : '',
+    '',
+    '📝 Brief:',
+    escapeHtml(normalizeMultiLine(data.notes || 'None')),
+    '',
+    '📎 Files:',
+    fileLines.join('\n'),
+    '',
+    escapeHtml(lessonStory)
+  ].filter(Boolean);
+
+  const maxChunkLen = 3500;
+  const chunks = [];
+  let current = '';
+  lines.forEach(line => {
+    const part = String(line || '');
+    const candidate = current ? `${current}\n${part}` : part;
+    if (candidate.length <= maxChunkLen) {
+      current = candidate;
+      return;
+    }
+    if (current) {
+      chunks.push(current);
+      current = '';
+    }
+    if (part.length <= maxChunkLen) {
+      current = part;
+      return;
+    }
+    // Hard split very long lines (for example very long notes)
+    for (let i = 0; i < part.length; i += maxChunkLen) {
+      const segment = part.slice(i, i + maxChunkLen);
+      if (segment) chunks.push(segment);
+    }
+  });
+  if (current) chunks.push(current);
+  if (!chunks.length) chunks.push('NEW LEAD');
+
+  chunks.forEach((chunk, idx) => {
+    const header = chunks.length > 1 ? `📨 Part ${idx + 1}/${chunks.length}\n` : '';
+    sendTelegramChunk(header + chunk);
+  });
+
+  return { success: true, parts: chunks.length, chats: chatIds.length };
+}
+
+
+function buildEmailFailureTelegramAlert(data, emailResult, context) {
+  const diagnostics = emailResult && typeof emailResult === 'object' ? emailResult : {};
+  const bookingId = normalizeSingleLine(context && context.bookingId || diagnostics.bookingId || data.bookingId || '');
+  const slotLabel = normalizeSingleLine(data.dateStr || diagnostics.slotIso || '') || 'No specific date selected';
+  const failedRecipients = summarizeFailedEmailRecipients(diagnostics.failedRecipients);
+  const invalidRecipients = Array.isArray(diagnostics.invalidRecipients) ? diagnostics.invalidRecipients.join(', ') : '';
+  const warnings = normalizeSingleLine(diagnostics.warning || '');
+  const quotaLine = diagnostics.quotaRemaining === null || diagnostics.quotaRemaining === undefined
+    ? ''
+    : `Quota: ${diagnostics.quotaRemaining}/${diagnostics.quotaRequired || 0}`;
+
+  return [
+    'ALERT: booking email notification problem',
+    `Status: ${normalizeSingleLine(diagnostics.status || 'failed')}`,
+    `Booking ID: ${bookingId || 'N/A'}`,
+    `Client: ${normalizeSingleLine(data.name || 'N/A')}`,
+    `Service: ${normalizeSingleLine(getBookingServiceDisplayText(data) || data.service || 'N/A')}`,
+    `Slot: ${slotLabel}`,
+    `Sheet row: ${context && context.sheetRow ? context.sheetRow : 'N/A'}`,
+    `Email error: ${truncate(normalizeSingleLine(diagnostics.error || 'Unknown error'), 500)}`,
+    failedRecipients ? `Failed recipients: ${failedRecipients}` : '',
+    invalidRecipients ? `Invalid recipients: ${invalidRecipients}` : '',
+    quotaLine,
+    diagnostics.htmlLength ? `HTML size: ${diagnostics.htmlLength}` : '',
+    diagnostics.linkCount ? `Links: ${diagnostics.linkCount}` : '',
+    warnings ? `Warnings: ${warnings}` : '',
+    diagnostics.logError ? `Log route issue: ${truncate(normalizeSingleLine(diagnostics.logError), 180)}` : ''
+  ].filter(Boolean).join('\n');
+}
+
+
+
+function buildTelegramPhoneLink(phone, text) {
+  const intl = normalizeTelegramPhoneInternational(phone);
+  if (!intl) return '';
+  const digits = intl.replace('+', '');
+  const cleanText = normalizeSingleLine(text || '');
+  const textQuery = cleanText ? `?text=${encodeUriValue(cleanText)}` : '';
+  return `https://t.me/+${digits}${textQuery}`;
+}
+
+function summarizeBookingSubmitFileNames(filesRaw, maxItems) {
+  if (!Array.isArray(filesRaw) || !filesRaw.length) return '';
+  const limit = Number(maxItems) > 0 ? Number(maxItems) : 5;
+  return filesRaw
+    .slice(0, limit)
+    .map((file, idx) => sanitizeFileName(file && file.name || `file-${idx + 1}`))
+    .filter(Boolean)
+    .join(', ');
+}
+
+function describeBookingSubmitFailureCause(code, errorMessage, context) {
+  const normalizedCode = normalizeSingleLine(code || '').toUpperCase();
+  const normalizedMessage = normalizeSingleLine(errorMessage || '');
+  const stage = normalizeSingleLine(context && context.stage || '').toLowerCase();
+  const clientSide = context && context.clientSide === true;
+
+  if (normalizedCode.indexOf('TURNSTILE') === 0) {
+    return 'Помилка антибот-перевірки Cloudflare Turnstile: токен відсутній, недійсний, прострочений або не збігся з очікуваним action/hostname.';
+  }
+
+  switch (normalizedCode) {
+    case 'SLOT_TAKEN':
+      return 'Обраний слот уже зайняли або він застарів до моменту відправлення форми.';
+    case 'BOOKING_DATE_CONTEXT_INVALID':
+      return 'Дата або час запису вже недоступні, знаходяться в минулому або поза дозволеним вікном бронювання.';
+    case 'BOOKING_INTAKE_DISABLED':
+      return 'Прийом заявок зараз вимкнено налаштуваннями intake на стороні сервера.';
+    case 'NO_DATE_DAILY_LIMIT_REACHED':
+      return 'Спрацював денний ліміт заявок без обраної дати.';
+    case 'BOOKING_RATE_LIMITED':
+      return 'Спрацювало обмеження за частотою запитів.';
+    case 'REPLAY_BLOCKED':
+      return 'Сервер заблокував повторне відправлення того ж запиту.';
+    case 'ORIGIN_NOT_ALLOWED':
+      return 'Джерело запиту не дозволено налаштуваннями публічної безпеки.';
+    case 'BOOKING_ANTIBOT_BLOCKED':
+      return 'Антибот-захист відхилив запит через honeypot, timestamp, fingerprint або схожу перевірку.';
+    case 'BOOKING_NETWORK_OR_SYNC_FAILED':
+      return clientSide
+        ? 'Браузер не отримав коректного підтвердження відправлення: можливі timeout, обрив мережі, блокування запиту або пошкоджена відповідь.'
+        : 'Під час відправлення виник збій мережі або синхронізації між клієнтом і сервером.';
+    case 'BOOKING_OFFLINE_QUEUE_SAVE_FAILED':
+      return 'Після збою мережі браузер не зміг зберегти заявку в локальну офлайн-чергу.';
+    case 'GENERAL_REQUEST_FAILURE':
+      return clientSide
+        ? 'На стороні браузера стався загальний збій submit-потоку до отримання надійного підтвердження запису.'
+        : 'Стався загальний збій при обробці заявки.';
+    case 'INTERNAL_SERVER_ERROR':
+      return 'Непередбачена серверна помилка під час обробки заявки.';
+    default:
+      break;
+  }
+
+  if (stage === 'validation') {
+    return 'Помилка виникла під час серверної перевірки полів форми або файлів перед створенням запису.';
+  }
+  if (stage === 'book_slot') {
+    return 'Помилка сталася під час резервування слота, запису в календар, таблицю, Drive або внутрішніх сервісів.';
+  }
+  if (stage === 'booking_rate_limit') {
+    return 'Спрацював серверний ліміт на занадто велику кількість нових унікальних відправлень форми за короткий проміжок часу.';
+  }
+  if (stage === 'security_gate') {
+    return 'Запит був зупинений серверним security gate до обробки форми.';
+  }
+  if (stage === 'submit_catch') {
+    return 'Помилка дійшла до глобального catch у doPost під час обробки booking_submit.';
+  }
+  if (stage === 'client_turnstile_ui') {
+    return 'Браузер не зміг вчасно отримати або оновити свіжий Cloudflare Turnstile token до відправлення форми.';
+  }
+  if (stage === 'client_submit_timeout') {
+    return 'Клієнтський запит на submit не дочекався відповіді сервера у відведений час.';
+  }
+  if (stage === 'client_invalid_response') {
+    return 'Сервер відповів порожньою, пошкодженою або несподіваною відповіддю, яку клієнт не зміг обробити.';
+  }
+  if (stage === 'client_offline_queue_failure') {
+    return 'Після невдалого відправлення браузер спробував зберегти заявку локально, але і це завершилося помилкою.';
+  }
+  if (stage === 'client_network_failure') {
+    return 'Під час submit на стороні клієнта стався мережевий збій до отримання коректної відповіді.';
+  }
+  if (stage === 'client_submit_exception') {
+    return 'Під час submit у браузері виникло клієнтське виключення.';
+  }
+
+  return normalizedMessage || 'Не вдалося точно визначити причину помилки.';
+}
+
+function buildBookingSubmitFailureTelegramAlert(rawData, failure, context) {
+  const data = rawData && typeof rawData === 'object' ? rawData : {};
+  const details = failure && typeof failure === 'object' ? failure : {};
+  const code = normalizeSingleLine(details.code || classifyBookingSubmitFailureCode(details.error || '')) || 'INTERNAL_SERVER_ERROR';
+  const errorText = truncate(normalizeSingleLine(details.error || 'Unknown booking submit error'), 500);
+  const causeText = truncate(describeBookingSubmitFailureCause(code, errorText, context), 600);
+  const stage = normalizeSingleLine(context && context.stage || '') || 'unknown';
+  const stageLabel = ({
+    security_gate: 'security gate',
+    honeypot: 'honeypot-перевірка',
+    timestamp: 'перевірка timestamp',
+    intake_gate: 'статус intake',
+    without_date_limit: 'ліміт заявок без дати',
+    turnstile: 'Cloudflare Turnstile',
+    validation: 'валідація форми',
+    booking_rate_limit: 'ліміт частоти submit',
+    book_slot: 'бронювання слота',
+    submit_catch: 'глобальний catch doPost',
+    unknown: 'невідомо'
+  })[stage] || stage;
+  const serviceLabel = normalizeSingleLine(
+    getBookingServiceDisplayText(data) || data.serviceDisplay || data.service_display || data.service || 'N/A'
+  );
+  const modeLabel = normalizeSingleLine(data.serviceMode || data.service_mode || data.mode || '');
+  const slotLabel = normalizeSingleLine(data.dateStr || data.requestedDateStr || '') || 'Дата не обрана';
+  const addressLine = normalizeSingleLine(data.address || '');
+  const cityLine = normalizeSingleLine(data.addressCity || data.address_city || '');
+  const provinceLine = normalizeSingleLine(data.addressProvince || data.address_province || '');
+  const zipLine = normalizeSingleLine(data.addressZip || data.address_zip || '');
+  const addressParts = [addressLine, cityLine, provinceLine, zipLine].filter(Boolean);
+  const notesText = truncate(
+    normalizeMultiLine(data.notes || data.brief || data.brief_details || ''),
+    900
+  );
+  const referralText = truncate(
+    normalizeMultiLine(data.referralSource || data.referral_source || data.hear_about || data.hearAbout || ''),
+    400
+  );
+  const fileNames = summarizeBookingSubmitFileNames(data.files, 5);
+  const filesCount = Array.isArray(data.files)
+    ? data.files.length
+    : Math.max(0, Number(data.filesCount != null ? data.filesCount : data.files_count) || 0);
+  const cameraCount = Array.isArray(data.cameraEvidenceFiles)
+    ? data.cameraEvidenceFiles.length
+    : (Array.isArray(data.z0)
+      ? data.z0.length
+      : Math.max(0, Number(data.cameraFramesCount != null ? data.cameraFramesCount : data.camera_frames_count) || 0));
+  const withoutDate = parseBooleanLoose(
+    data.withoutSpecificDate != null ? data.withoutSpecificDate : data.without_specific_date
+  ) ? 'Так' : 'Ні';
+  const turnstileCodes = Array.isArray(details.codes)
+    ? details.codes.join(', ')
+    : (Array.isArray(details.turnstileCodes) ? details.turnstileCodes.join(', ') : '');
+  const publicErrorCode = normalizeSingleLine(
+    details.publicErrorCode || details.publicCode || data.publicErrorCode || data.publicCode || ''
+  );
+  const clientSubmitId = normalizeSingleLine(
+    data.clientSubmitId || data.client_submit_id || data.submitId || data.submit_id || ''
+  );
+  const requestId = normalizeSingleLine(
+    data.requestId || data.request_id || data.clientRequestId || data.client_request_id || ''
+  );
+
+  return [
+    'Адміністративне повідомлення: реагувати на це повідомлення не потрібно. Воно надіслане автоматично для внутрішнього контролю помилки.',
+    'ЗВІТ ПРО ПОМИЛКУ: форма запису повернула помилку',
+    context && context.clientSide === true ? 'Джерело: клієнтський браузер до підтвердженого завершення submit.' : '',
+    `Код: ${code}`,
+    publicErrorCode ? `Публічний код UI: ${publicErrorCode}` : '',
+    `Опис: ${errorText}`,
+    `Причина: ${causeText}`,
+    `Етап: ${stageLabel}`,
+    `Клієнт: ${normalizeSingleLine(data.name || 'N/A')}`,
+    `Email: ${normalizeSingleLine(data.email || 'N/A')}`,
+    `Телефон: ${formatPhoneForTelegramPlain(data.phone)}`,
+    `Послуга: ${serviceLabel}`,
+    modeLabel ? `Формат послуги: ${modeLabel}` : '',
+    `Запитаний запис: ${slotLabel}`,
+    `Без конкретної дати: ${withoutDate}`,
+    data.dob ? `DOB: ${normalizeSingleLine(data.dob)}` : '',
+    data.age ? `Вік: ${normalizeSingleLine(data.age)}` : '',
+    data.deadline ? `Дедлайн: ${normalizeSingleLine(data.deadline)}` : '',
+    addressParts.length ? `Адреса: ${addressParts.join(', ')}` : '',
+    referralText ? `Джерело звернення: ${referralText}` : '',
+    notesText ? `Коментар: ${notesText}` : '',
+    `Файли: ${filesCount}${fileNames ? ` (${fileNames})` : ''}`,
+    `Файли з камери: ${cameraCount}`,
+    clientSubmitId ? `Client submit ID: ${clientSubmitId}` : '',
+    requestId ? `Request ID: ${requestId}` : '',
+    data.fileSessionId || data.testFilesSessionId || data.tempSessionId || data.k
+      ? `Сесія файлів: ${normalizeSingleLine(data.fileSessionId || data.testFilesSessionId || data.tempSessionId || data.k)}`
+      : '',
+    data.cameraEvidenceSessionId || data.z1
+      ? `Сесія камери: ${normalizeSingleLine(data.cameraEvidenceSessionId || data.z1)}`
+      : '',
+    turnstileCodes ? `Коди Turnstile: ${truncate(turnstileCodes, 240)}` : '',
+    data.pageUrl ? `Сторінка: ${truncate(normalizeSingleLine(data.pageUrl), 240)}` : '',
+    data.ip ? `IP: ${normalizeSingleLine(data.ip)}` : '',
+    data.city ? `Місто по IP: ${normalizeSingleLine(data.city)}` : '',
+    data.timezone ? `Часовий пояс: ${normalizeSingleLine(data.timezone)}` : '',
+    data.fingerprint ? `Fingerprint: ${truncate(normalizeSingleLine(data.fingerprint), 120)}` : ''
+  ].filter(Boolean).join('\n');
+}
+
+
+function getBookingFailureTelegramThrottleSignature(rawData, failure, context) {
+  const data = rawData && typeof rawData === 'object' ? rawData : {};
+  const details = failure && typeof failure === 'object' ? failure : {};
+  const stage = normalizeSingleLine(
+    context && context.stage || data.bookingStage || data.stage || 'unknown'
+  ).toLowerCase() || 'unknown';
+  const code = normalizeSingleLine(
+    details.code || details.failureCode || data.failureCode || classifyBookingSubmitFailureCode(details.error || data.error || '')
+  ).toUpperCase() || 'INTERNAL_SERVER_ERROR';
+  const publicErrorCode = normalizeSingleLine(
+    details.publicErrorCode || details.publicCode || data.publicErrorCode || data.publicCode || ''
+  ).toUpperCase();
+  const source = context && context.clientSide === true ? 'client' : 'server';
+  return [source, stage, code, publicErrorCode || 'none'].join('|');
+}
+
+function shouldThrottleBookingFailureTelegramAlert(rawData, failure, context) {
+  const signature = getBookingFailureTelegramThrottleSignature(rawData, failure, context);
+  if (!signature) return false;
+
+  try {
+    const cache = CacheService.getScriptCache();
+    const dedupeKey = `bkft:${sha256Hex(signature).slice(0, 30)}`;
+    if (cache.get(dedupeKey)) {
+      return true;
+    }
+    cache.put(dedupeKey, '1', BOOKING_FAILURE_TELEGRAM_THROTTLE_SECONDS);
+  } catch (cacheErr) { }
+
+  return false;
+}
+
+function notifyBookingSubmitFailureTelegram(rawData, failure, context) {
+  try {
+    if (!isTelegramErrorAlertsEnabled()) {
+      return { success: true, skipped: 'pulse-disabled' };
+    }
+    if (shouldThrottleBookingFailureTelegramAlert(rawData, failure, context)) {
+      return { success: true, throttled: true };
+    }
+    const alertText = buildBookingSubmitFailureTelegramAlert(rawData, failure, context);
+    const sendResult = sendOperationalTelegramAlert(alertText);
+    if (sendResult && sendResult.success === false && !sendResult.skipped) {
+      try {
+        logUsage({
+          event: 'BOOKING ERROR ALERT TELEGRAM WARNING',
+          severity: 'warning',
+          details: truncate(normalizeSingleLine(sendResult.error || 'Unknown Telegram send failure.'), 1000),
+          userInfo: rawData && rawData.userInfo || '',
+          fingerprint: rawData && rawData.fingerprint || ''
+        });
+      } catch (logErr) { }
+    }
+  } catch (err) {
+    try {
+      logUsage({
+        event: 'BOOKING ERROR ALERT TELEGRAM ERROR',
+        severity: 'warning',
+        details: truncate(String(err && err.message ? err.message : err), 1000),
+        userInfo: rawData && rawData.userInfo || '',
+        fingerprint: rawData && rawData.fingerprint || ''
+      });
+    } catch (logErr) { }
+  }
+}
+
+
+function isBookingClientFailureAlertEvent(eventName) {
+  return normalizeSingleLine(eventName || '').toUpperCase() === 'BOOKING CLIENT SUBMIT FAILURE';
+}
+
+function notifyBookingClientFailureTelegramFromLog(rawLog, eventName, detailsText) {
+  if (!isBookingClientFailureAlertEvent(eventName)) {
+    return { success: false, skipped: 'event-mismatch' };
+  }
+
+  const raw = rawLog && typeof rawLog === 'object' ? rawLog : {};
+  const failureCode = normalizeSingleLine(raw.failureCode || raw.errorCode || raw.code || 'GENERAL_REQUEST_FAILURE') || 'GENERAL_REQUEST_FAILURE';
+  const publicErrorCode = normalizeSingleLine(raw.publicErrorCode || raw.publicCode || '');
+  const stage = normalizeSingleLine(raw.bookingStage || raw.stage || 'client_submit_failure') || 'client_submit_failure';
+  const failure = {
+    code: failureCode,
+    error: truncate(normalizeSingleLine(raw.errorMessage || raw.error || detailsText || 'Client-side booking submit failure.'), 500),
+    publicErrorCode: publicErrorCode
+  };
+  const context = {
+    stage: stage,
+    clientSide: true,
+    sourceEvent: normalizeSingleLine(eventName || '')
+  };
+
+  try {
+    if (!isTelegramErrorAlertsEnabled()) {
+      return { success: true, skipped: 'pulse-disabled' };
+    }
+    if (shouldThrottleBookingFailureTelegramAlert(raw, failure, context)) {
+      return { success: true, throttled: true };
+    }
+    return sendOperationalTelegramAlert(buildBookingSubmitFailureTelegramAlert(raw, failure, context));
+  } catch (err) {
+    try {
+      Logger.log('BOOKING CLIENT FAILURE TELEGRAM ERROR: ' + String(err && err.message ? err.message : err));
+    } catch (logErr) { }
+    return { success: false, error: String(err && err.message ? err.message : err) };
+  }
+}
+
+
+function normalizeTelegramPhoneInternational(phone) {
+  const raw = String(phone || '').trim();
+  if (!raw || raw.toUpperCase() === 'N/A') return '';
+  let digits = raw.replace(/\D/g, '');
+  if (digits.length === 10) digits = '1' + digits;
+  if (digits.length < 10) return '';
+  return '+' + digits;
+}
+
+function formatPhoneForTelegram(phone) {
+  const intl = normalizeTelegramPhoneInternational(phone);
+  if (!intl) return escapeHtml(String(phone || 'N/A'));
+  let display = intl;
+  if (intl.length === 12 && intl.startsWith('+1')) {
+    display = `+1 (${intl.slice(2, 5)}) ${intl.slice(5, 8)}-${intl.slice(8)}`;
+  }
+  return `<a href="tel:${intl}">${escapeHtml(display)}</a>`;
+}
+
+function formatPhoneForTelegramPlain(phone) {
+  const intl = normalizeTelegramPhoneInternational(phone);
+  if (!intl) return normalizeSingleLine(String(phone || 'N/A'));
+  if (intl.length === 12 && intl.startsWith('+1')) {
+    return `+1 (${intl.slice(2, 5)}) ${intl.slice(5, 8)}-${intl.slice(8)}`;
+  }
+  return intl;
+}
