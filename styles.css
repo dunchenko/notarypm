@@ -167,7 +167,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .calendar-toolbar h3{margin:0;font-size:1rem;text-align:center}
 .calendar-toolbar{gap:8px}
 .time-slots{margin-top:24px;display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:8px;overflow-x:auto;padding-bottom:4px}
-.time-chip{display:inline-grid;place-items:center;background:#111111;color:#ffffff;padding:6px 12px;border-radius:999px;cursor:pointer;border:6px solid rgba(255,255,255,0.1);font-weight:700;font-size:clamp(0.95rem,1.6vw,1.15rem);line-height:1;transition:transform .16s ease,box-shadow .16s ease,background .16s ease;text-decoration:none;white-space:nowrap;height:auto;min-height:44px}
+.time-chip{display:inline-grid;place-items:center;background:#111111;color:#ffffff;padding:6px 12px;border-radius:999px;cursor:pointer;border:6px solid #000000;font-weight:700;font-size:clamp(0.95rem,1.6vw,1.15rem);line-height:1;transition:transform .16s ease,box-shadow .16s ease,background .16s ease;text-decoration:none;white-space:nowrap;height:auto;min-height:44px}
 .time-chip::before{content:none}
 .time-chip:hover{background:#000000}
 .time-chip:focus{outline:none}
@@ -194,18 +194,18 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   0%{transform:scale(1)}
   100%{transform:scale(1.02)}
 }
-.attachment-dropzone{margin-top:8px;border:6px dashed rgba(11,11,11,0.24);border-radius:16px;padding:18px;background:linear-gradient(135deg, rgba(11,11,11,0.03), rgba(11,11,11,0.06));cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;min-height:132px;justify-content:center;position:relative;overflow:hidden}
+.attachment-dropzone{margin-top:8px;border:6px dashed #000;border-radius:16px;padding:18px;background:#fff;cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;min-height:132px;justify-content:center;position:relative;overflow:hidden}
 .attachment-dropzone::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.7) 50%, transparent 100%);transform:translateX(-120%);transition:transform .7s ease}
 .attachment-dropzone:hover::before,.attachment-dropzone.drag-active::before{transform:translateX(120%)}
-.attachment-dropzone:hover,.attachment-dropzone.drag-active{transform:translateY(-2px) scale(1.01);border:6px solid #000;box-shadow:none;background:#000;color:#fff}
+.attachment-dropzone:hover,.attachment-dropzone.drag-active{transform:translateY(-2px) scale(1.01);border:6px dashed #000;box-shadow:none;background:#fff;color:#000}
 .attachment-dropzone:hover .attachment-dropzone__content strong,
 .attachment-dropzone:hover .attachment-dropzone__content p,
 .attachment-dropzone.drag-active .attachment-dropzone__content strong,
-.attachment-dropzone.drag-active .attachment-dropzone__content p{color:#fff}
+.attachment-dropzone.drag-active .attachment-dropzone__content p{color:#000}
 .attachment-dropzone.drag-active{animation:attachmentPulse .6s ease infinite alternate}
-.attachment-dropzone.has-files{border:6px solid #000;background:linear-gradient(135deg,#0b0b0b,#2e2e2e);color:#fff}
-.attachment-dropzone.has-files:hover,.attachment-dropzone.has-files.drag-active{transform:none;border:6px solid #000;background:#000;box-shadow:none}
-.attachment-dropzone.has-files .attachment-dropzone__content p,.attachment-dropzone.has-files .attachment-status{color:rgba(255,255,255,0.8)}
+.attachment-dropzone.has-files{border:6px dashed #000;background:#fff;color:#000}
+.attachment-dropzone.has-files:hover,.attachment-dropzone.has-files.drag-active{transform:none;border:6px dashed #000;background:#fff;box-shadow:none}
+.attachment-dropzone.has-files .attachment-dropzone__content p,.attachment-dropzone.has-files .attachment-status{color:rgba(11,11,11,0.8)}
 .attachment-dropzone__icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#000;box-shadow:0 8px 20px rgba(11,11,11,0.12);font-size:1.25rem}
 .attachment-dropzone__content strong{display:block;font-size:1rem;font-weight:700}
 .attachment-dropzone__content p{margin:4px 0 0;color:var(--muted);font-size:0.92rem;line-height:1.4}
@@ -285,8 +285,8 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .faq-question:focus-visible{outline:6px solid var(--accent);outline-offset:-2px}
 .faq-title{flex:1;text-align:left}
 .faq-toggle{display:grid;place-items:center;width:24px;height:24px;min-width:24px;flex:0 0 24px;color:#0b0b0b;transition:transform .3s ease}
-.faq-toggle svg{display:block;width:18px;height:18px;overflow:visible;fill:none !important;stroke:#0b0b0b !important;stroke-width:2.5 !important;stroke-linecap:round;stroke-linejoin:round;opacity:1}
-.faq-toggle svg path{fill:none !important;stroke:#0b0b0b !important;stroke-width:2.5 !important;stroke-linecap:round;stroke-linejoin:round}
+.faq-toggle svg{display:block;width:18px;height:18px;overflow:visible;fill:none !important;stroke:#0b0b0b !important;stroke-width:3.5 !important;stroke-linecap:round;stroke-linejoin:round;opacity:1}
+.faq-toggle svg path{fill:none !important;stroke:#0b0b0b !important;stroke-width:3.5 !important;stroke-linecap:round;stroke-linejoin:round}
 .faq-question.active .faq-toggle{transform:rotate(45deg)}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 18px}
 .faq-question.active ~ .faq-answer{max-height:500px;padding:0 18px 18px 18px}
@@ -460,4 +460,17 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .footer-email{display:inline-flex;align-items:center;gap:8px;color:#000;text-decoration:none;font-weight:600}
 .footer-email-icon{width:18px;height:18px;fill:#000;flex-shrink:0}
 .footer-content p{color:#000;margin:0}
+.footer-links{margin:0;padding:0}
+.footer-links a{color:#000;text-decoration:underline;font-weight:600}
+.footer-links a:hover{opacity:0.8}
+.footer-disclaimer{max-width:720px;margin:0}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.95);display:none;align-items:center;justify-content:center;padding:24px;z-index:10001;overflow-y:auto}
+.modal-overlay.active{display:flex}
+.modal{width:100%;max-width:760px;background:#050505;color:#fff;border-radius:24px;padding:32px;position:relative;box-shadow:0 40px 90px rgba(0,0,0,0.5);max-height:90vh;overflow:auto}
+.modal h2{margin-top:0;font-size:2rem}
+.modal h3{margin-top:24px;font-size:1.2rem}
+.modal p{margin:18px 0 0;line-height:1.7;color:rgba(255,255,255,0.92)}
+.modal-close{position:absolute;top:18px;right:18px;padding:10px;border:none;border-radius:0;background:transparent;color:#fff;font-size:1.3rem;line-height:1;display:grid;place-items:center;cursor:pointer;transition:transform .2s ease}
+.modal-close:hover{transform:scale(1.05);background:transparent}
+.modal-close:focus{outline:none}
 .map-actions{display:flex;justify-content:center;margin-top:24px}
