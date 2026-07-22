@@ -1,31 +1,31 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
-# Generate a black square favicon with a white infinity symbol
+# Generate a black square favicon with centered white "P.M." text
 sizes = [64, 48, 32, 16]
 # Create base image (largest size)
 base_size = max(sizes)
 img = Image.new('RGBA', (base_size, base_size), (0, 0, 0, 255))
 draw = ImageDraw.Draw(img)
 
-# Infinity symbol parameters
-stroke_width = int(base_size * 0.14)
-center = base_size // 2
-width = int(base_size * 0.72)
-height = int(base_size * 0.38)
+text = "PM"
+font_size = int(base_size * 0.7)
+font = None
+for font_name in ["arialbd.ttf", "Segoe UI Bold.ttf", "Helvetica Bold.ttf", "DejaVuSans-Bold.ttf"]:
+    try:
+        font = ImageFont.truetype(font_name, font_size)
+        break
+    except OSError:
+        continue
+if font is None:
+    font = ImageFont.load_default()
 
-# Left and right loops
-left_bounds = [center - width // 2, center - height // 2, center, center + height // 2]
-right_bounds = [center, center - height // 2, center + width // 2, center + height // 2]
+bbox = draw.textbbox((0, 0), text, font=font)
+text_width = bbox[2] - bbox[0]
+text_height = bbox[3] - bbox[1]
+text_x = (base_size - text_width) / 2
+text_y = (base_size - text_height) / 2
 
-# Draw two arcs for the infinity symbol
-for bounds in (left_bounds, right_bounds):
-    draw.arc(bounds, start=60, end=300, fill=(255, 255, 255, 255), width=stroke_width)
-
-# Add a center connector by drawing a thin rectangle and circles for smoother join
-connector_width = stroke_width
-connector_height = int(stroke_width * 0.9)
-connector_box = [center - connector_width // 2, center - connector_height // 2, center + connector_width // 2, center + connector_height // 2]
-draw.rectangle(connector_box, fill=(255, 255, 255, 255))
+draw.text((text_x, text_y), text, fill=(255, 255, 255, 255), font=font)
 
 # Save as favicon.ico containing multiple sizes
 img.save('favicon.ico', format='ICO', sizes=[(s, s) for s in sizes])
