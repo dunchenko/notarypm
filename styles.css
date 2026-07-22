@@ -191,6 +191,32 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .custom-option.selected{background:#000;color:#fff;font-weight:600}
 .notes-field{position:relative;margin-top:6px}
 .notes-field::after{content:"";position:absolute;right:8px;bottom:8px;width:18px;height:18px;background:linear-gradient(135deg, transparent 0 50%, rgba(11,11,11,0.28) 50% 56%, transparent 56% 100%);pointer-events:none;border-bottom-right-radius:6px}
+@keyframes attachmentPulse{
+  0%{transform:scale(1)}
+  100%{transform:scale(1.02)}
+}
+.attachment-dropzone{margin-top:8px;border:2px dashed rgba(11,11,11,0.24);border-radius:16px;padding:18px;background:linear-gradient(135deg, rgba(11,11,11,0.03), rgba(11,11,11,0.06));cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;min-height:132px;justify-content:center;position:relative;overflow:hidden}
+.attachment-dropzone::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.7) 50%, transparent 100%);transform:translateX(-120%);transition:transform .7s ease}
+.attachment-dropzone:hover::before,.attachment-dropzone.drag-active::before{transform:translateX(120%)}
+.attachment-dropzone:hover,.attachment-dropzone.drag-active{transform:translateY(-2px) scale(1.01);border:6px solid #000;box-shadow:none;background:linear-gradient(135deg, rgba(255,255,255,0.95), rgba(11,11,11,0.04))}
+.attachment-dropzone.drag-active{animation:attachmentPulse .6s ease infinite alternate}
+.attachment-dropzone.has-files{border-color:#000;background:linear-gradient(135deg,#0b0b0b,#2e2e2e);color:#fff}
+.attachment-dropzone.has-files:hover,.attachment-dropzone.has-files.drag-active{transform:none;border-color:#000;background:linear-gradient(135deg,#0b0b0b,#2e2e2e);box-shadow:none}
+.attachment-dropzone.has-files .attachment-dropzone__content p,.attachment-dropzone.has-files .attachment-status{color:rgba(255,255,255,0.8)}
+.attachment-dropzone__icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#000;box-shadow:0 8px 20px rgba(11,11,11,0.12);font-size:1.25rem}
+.attachment-dropzone__content strong{display:block;font-size:1rem;font-weight:700}
+.attachment-dropzone__content p{margin:4px 0 0;color:var(--muted);font-size:0.92rem;line-height:1.4}
+.attachment-status{font-size:0.9rem;color:var(--muted);font-weight:600}
+.attachment-list{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.attachment-list li{padding:8px 10px;border-radius:10px;background:rgba(11,11,11,0.04);font-size:0.9rem;color:var(--text);display:flex;justify-content:space-between;gap:8px;align-items:center;position:relative}
+.attachment-list li::before{content:"✓";color:#000;font-weight:900;margin-left:8px;margin-right:12px;font-size:1.1rem;transition:opacity .2s ease}
+.attachment-list li:hover::before{opacity:0}
+.attachment-list li span{font-weight:600}
+.attachment-remove{position:absolute;left:10px;background:transparent;border:none;color:#000;font-size:1.2rem;font-weight:900;cursor:pointer;padding:4px 8px;border-radius:6px;opacity:0;transition:opacity .2s ease;display:flex;align-items:center;justify-content:center}
+.attachment-list li:hover .attachment-remove,
+.attachment-list li:active .attachment-remove,
+.attachment-list li:focus-within .attachment-remove,
+.attachment-remove:focus{opacity:1}
 .intake-form textarea{overflow:auto;box-sizing:border-box;display:block}
 .intake-form textarea::-webkit-resizer{display:none}
 .intake-form input:focus, .intake-form textarea:focus{border:6px solid #000;box-shadow:none;outline:none;}

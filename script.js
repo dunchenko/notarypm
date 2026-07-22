@@ -232,7 +232,7 @@ function renderTimeSlots(iso){
 
 function confirmBooking(iso, time){
   const body = encodeURIComponent(`I'd like to book a notary appointment on ${iso} at ${time}. Please confirm availability and fees.`);
-  window.location.href = `mailto:hello@notarypm.ca?subject=Booking%20Request&body=${body}`;
+  window.location.href = `mailto:notary@hannadunchenko.com?subject=Booking%20Request&body=${body}`;
 }
 
 // Select a time slot: populate the intake form inputs and mark the slot visually
@@ -354,14 +354,113 @@ if(coverageList){
 const intakeForm = document.getElementById('intakeForm');
 const intakeStatus = document.getElementById('intakeStatus');
 const intakeClear = document.getElementById('intakeClear');
+const attachmentInput = document.getElementById('attachmentInput');
+const attachmentDropzone = document.getElementById('attachmentDropzone');
+const attachmentStatus = document.getElementById('attachmentStatus');
+const attachmentList = document.getElementById('attachmentList');
 
 function serializeForm(form){
   const data = {};
-  new FormData(form).forEach((v,k)=>data[k]=v);
+  const formData = new FormData(form);
+  formData.forEach((value, key) => {
+    if (value instanceof File) {
+      if (!data[key]) data[key] = [];
+      data[key].push({ name: value.name, size: value.size, type: value.type });
+    } else {
+      data[key] = value;
+    }
+  });
   return data;
 }
 
 function validateEmail(email){ return /\S+@\S+\.\S+/.test(email); }
+
+function resetAttachmentUI(){
+  if(attachmentStatus) attachmentStatus.textContent = 'Ready for future Drive integration';
+  if(attachmentList) attachmentList.innerHTML = '';
+  if(attachmentDropzone) attachmentDropzone.classList.remove('has-files', 'drag-active');
+  if(attachmentInput) attachmentInput.value = '';
+}
+
+function renderAttachmentFiles(files){
+  const selectedFiles = Array.from(files || []);
+  if(attachmentStatus){
+    attachmentStatus.textContent = selectedFiles.length
+      ? `${selectedFiles.length} file${selectedFiles.length > 1 ? 's' : ''} ready for review`
+      : 'Ready for your intake review';
+  }
+  if(attachmentList){
+    attachmentList.innerHTML = '';
+    selectedFiles.forEach((file, index) => {
+      const item = document.createElement('li');
+      item.innerHTML = `<span>${file.name}</span><small>${Math.round(file.size / 1024)} KB</small><button type="button" class="attachment-remove" data-index="${index}" aria-label="Remove file" title="Remove">✕</button>`;
+      attachmentList.appendChild(item);
+      
+      const removeBtn = item.querySelector('.attachment-remove');
+      if(removeBtn) {
+        removeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          removeAttachmentFile(index);
+        });
+      }
+    });
+  }
+  if(attachmentDropzone){ attachmentDropzone.classList.toggle('has-files', selectedFiles.length > 0); }
+}
+
+function removeAttachmentFile(index){
+  const files = Array.from(attachmentInput.files);
+  files.splice(index, 1);
+  
+  const dataTransfer = new DataTransfer();
+  files.forEach(file => dataTransfer.items.add(file));
+  attachmentInput.files = dataTransfer.files;
+  
+  renderAttachmentFiles(attachmentInput.files);
+}
+
+if(attachmentInput && attachmentDropzone){
+  const openPicker = () => attachmentInput.click();
+
+  attachmentDropzone.addEventListener('click', (event) => {
+    if(event.target.closest('button')) return;
+    openPicker();
+  });
+
+  attachmentDropzone.addEventListener('keydown', (event) => {
+    if(event.key === 'Enter' || event.key === ' '){
+      event.preventDefault();
+      openPicker();
+    }
+  });
+
+  ['dragenter','dragover'].forEach(type => {
+    attachmentDropzone.addEventListener(type, (event) => {
+      event.preventDefault();
+      attachmentDropzone.classList.add('drag-active');
+    });
+  });
+
+  ['dragleave','drop'].forEach(type => {
+    attachmentDropzone.addEventListener(type, (event) => {
+      event.preventDefault();
+      attachmentDropzone.classList.remove('drag-active');
+    });
+  });
+
+  attachmentDropzone.addEventListener('drop', (event) => {
+    const files = event.dataTransfer?.files;
+    if(files && files.length){
+      attachmentInput.files = files;
+      renderAttachmentFiles(Array.from(files));
+    }
+  });
+
+  attachmentInput.addEventListener('change', (event) => {
+    renderAttachmentFiles(Array.from(event.target.files || []));
+  });
+}
 
 if(intakeForm){
   intakeForm.addEventListener('submit', (e)=>{
@@ -373,16 +472,17 @@ if(intakeForm){
     try{
       const key = 'notarypm_intake_submissions';
       const existing = JSON.parse(localStorage.getItem(key) || '[]');
-      existing.push(Object.assign({submittedAt: new Date().toISOString()},data));
+      existing.push(Object.assign({submittedAt: new Date().toISOString()}, data));
       localStorage.setItem(key, JSON.stringify(existing));
     }catch(err){ console.warn('Storage failed', err); }
-    // Build mailto
+    const attachments = Array.isArray(data.attachments) ? data.attachments.map(file => file.name).join(', ') : 'None';
     const body = encodeURIComponent(
-      `Name: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nService: ${data.service}\nPreferred: ${data.preferredDate} ${data.preferredTime}\nAddress: ${data.address}\nNotes:\n${data.message}`
+      `Name: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nService: ${data.service}\nPreferred: ${data.preferredDate} ${data.preferredTime}\nAddress: ${data.address}\nAttachments: ${attachments}\nNotes:\n${data.message}`
     );
     window.location.href = `mailto:${window.SHARED_SETTINGS?.contact?.email || 'hello@notarypm.ca'}?subject=Notary%20Intake%20Request&body=${body}`;
     intakeStatus.textContent='Request prepared — your mail client should open. Saved locally.';
     intakeForm.reset();
+    resetAttachmentUI();
   });
-  intakeClear.addEventListener('click', ()=>{ intakeForm.reset(); intakeStatus.textContent='Form cleared.'; });
+  if(intakeClear){ intakeClear.addEventListener('click', ()=>{ intakeForm.reset(); intakeStatus.textContent='Form cleared.'; resetAttachmentUI(); }); }
 }

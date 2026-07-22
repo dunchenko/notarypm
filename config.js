@@ -14,7 +14,7 @@ window.SHARED_SETTINGS = {
 	gtmId: '',
 	// Contact sync: email/phone from main site
 	contact: {
-		email: 'hello@notarypm.ca',
+		email: 'notary@hannadunchenko.com',
 		phone: ''
 	}
 };

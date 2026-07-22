@@ -26,7 +26,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=6" />
+    <link rel="stylesheet" href="styles.css?v=7" />
     <link rel="icon" href="favicon.ico" />
     <style>
       /* Hide scrollbar on all devices */
@@ -217,6 +217,19 @@
               <div class="form-row"><label>Preferred date<input type="date" name="preferredDate"></label></div>
               <div class="form-row"><label>Preferred time<input type="time" name="preferredTime"></label></div>
               <div class="form-row"><label>Address<input type="text" name="address"></label></div>
+              <div class="form-row">
+                <label>Attach files</label>
+                <div id="attachmentDropzone" class="attachment-dropzone" tabindex="0" role="button" aria-label="Attach files">
+                  <input type="file" id="attachmentInput" name="attachments" multiple hidden>
+                  <div class="attachment-dropzone__icon" aria-hidden="true">⬆</div>
+                  <div class="attachment-dropzone__content">
+                    <strong>Attach supporting documents</strong>
+                    <p>Upload IDs, affidavits, or other paperwork to prepare for your notary appointment.</p>
+                  </div>
+                  <div id="attachmentStatus" class="attachment-status">Ready for your intake review</div>
+                </div>
+                <ul id="attachmentList" class="attachment-list" aria-live="polite"></ul>
+              </div>
               <div class="form-row"><label>Notes<div class="notes-field"><textarea name="message" rows="3"></textarea></div></label></div>
               <div class="form-actions">
                 <button type="submit" class="btn btn-primary">Send request</button>
@@ -330,11 +343,11 @@
 
     <footer class="footer">
       <div class="container footer-content">
-        <a class="footer-email" href="mailto:hanna@notarypm.com">
+        <a class="footer-email" href="mailto:notary@hannadunchenko.com">
           <svg class="footer-email-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
           </svg>
-          hanna@notarypm.com
+          notary@hannadunchenko.com
         </a>
         <p>© 2026 Notary P.M.</p>
       </div>
@@ -377,6 +390,6 @@
         if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', updateCoverageCount); else updateCoverageCount();
       })();
     </script>
-    <script src="script.js?v=2"></script>
+    <script src="script.js?v=3"></script>
   </body>
 </html>
