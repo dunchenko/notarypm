@@ -122,7 +122,7 @@ body.menu-open{overflow:hidden;height:100vh}
 .btn, button, input[type=submit]{display:inline-flex;align-items:center;justify-content:center;height:72px;min-height:72px;padding:0 18px;border-radius:12px;text-decoration:none;line-height:1;box-sizing:border-box;font-weight:600;font-size:1rem}
 .btn{min-width:92px}
 .btn-primary{background:var(--text);color:#fff;font-weight:600;font-size:1.05rem}
-.btn-secondary{background:transparent;border:4px solid rgba(11,11,11,0.06);color:var(--text);margin-left:8px}
+.btn-secondary{background:transparent;border:6px solid rgba(11,11,11,0.06);color:var(--text);margin-left:8px}
 
 button.calendar-day, .calendar-day{height:auto !important;min-height:0 !important;}
 .trust-list{display:flex;gap:14px;margin-top:14px;list-style:none;padding:0}
@@ -136,11 +136,11 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
 .info-card{background:var(--card);padding:18px;border-radius:10px}
 .booking-section .booking-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start;max-width:760px;margin:0 auto}
-.booking-card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);width:100%;max-width:100%;min-width:0}
+.booking-card{--calendar-gap:10px;background:var(--card);padding:18px;border-radius:0;box-shadow:var(--shadow);width:100%;max-width:100%;min-width:0}
 .calendar-toolbar{display:flex;align-items:center;justify-content:space-between}
 .weekdays{display:grid;grid-template-columns:repeat(7,1fr);margin-top:12px;color:var(--muted);font-weight:600}
-.calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px;margin-top:8px;width:100%}
-.calendar-day{padding:0;background:var(--text);border-radius:var(--radius);text-align:center;color:#fff;cursor:pointer;display:grid;place-items:center;width:100%;aspect-ratio:1/1;border:none;height:auto;min-height:0;line-height:1.1;font-size:clamp(0.9rem,1.6vw,1.1rem)}
+.calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--calendar-gap);margin-top:8px;width:100%}
+.calendar-day{padding:0;background:var(--text);border-radius:0;text-align:center;color:#fff;cursor:pointer;display:grid;place-items:center;width:100%;aspect-ratio:1/1;border:none;height:auto;min-height:0;line-height:1.1;font-size:clamp(0.9rem,1.6vw,1.1rem)}
 .calendar-day.inactive{
   background: transparent;
   color: #000; /* make past days text black */
@@ -150,29 +150,29 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   aspect-ratio: 1/1;
   min-height: 72px;
   padding: 0;
-  border-radius: calc(var(--radius) / 2);
+  border-radius: 0;
   display: grid;
   place-items: center;
 }
 .calendar-day.today{outline:none;outline-offset:0}
-.calendar-day.selected{outline:2px dashed var(--accent);outline-offset:4px}
-.calendar-day.today.selected{outline:2px dashed var(--accent);outline-offset:4px}
+.calendar-day.selected{outline:6px dashed var(--accent);outline-offset:4px}
+.calendar-day.today.selected{outline:6px dashed var(--accent);outline-offset:4px}
 
 /* icon buttons (prev/next) styled like calendar days */
-.icon-btn{display:inline-grid;place-items:center;aspect-ratio:1/1;width:72px;height:72px;min-width:72px;min-height:72px;padding:0;border:none;background:var(--text);color:#fff;border-radius:var(--radius);cursor:pointer;font-size:1.05rem;line-height:1}
-.icon-btn:focus{outline:2px solid rgba(255,255,255,0.12);outline-offset:3px}
+.icon-btn{display:inline-grid;place-items:center;aspect-ratio:1/1;width:calc((100% - (var(--calendar-gap) * 6)) / 7);height:auto;min-width:0;min-height:0;padding:0;border:none;background:var(--text);color:#fff;border-radius:0;cursor:pointer;font-size:1.05rem;line-height:1}
+.icon-btn:focus{outline:6px solid rgba(255,255,255,0.12);outline-offset:3px}
 .icon-btn[aria-label]{-webkit-appearance:none;-moz-appearance:none;appearance:none}
 
 /* make toolbar spacing accommodate larger icon buttons */
 .calendar-toolbar h3{margin:0;font-size:1rem;text-align:center}
 .calendar-toolbar{gap:8px}
 .time-slots{margin-top:24px;display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:8px;overflow-x:auto;padding-bottom:4px}
-.time-chip{display:inline-grid;place-items:center;background:#111111;color:#ffffff;padding:6px 12px;border-radius:999px;cursor:pointer;border:3px solid rgba(255,255,255,0.1);font-weight:700;font-size:clamp(0.95rem,1.6vw,1.15rem);line-height:1;transition:transform .16s ease,box-shadow .16s ease,background .16s ease;text-decoration:none;white-space:nowrap;height:auto;min-height:44px}
+.time-chip{display:inline-grid;place-items:center;background:#111111;color:#ffffff;padding:6px 12px;border-radius:999px;cursor:pointer;border:6px solid rgba(255,255,255,0.1);font-weight:700;font-size:clamp(0.95rem,1.6vw,1.15rem);line-height:1;transition:transform .16s ease,box-shadow .16s ease,background .16s ease;text-decoration:none;white-space:nowrap;height:auto;min-height:44px}
 .time-chip::before{content:none}
 .time-chip:hover{background:#000000}
 .time-chip:focus{outline:none}
 /* Selected state for time chip when user clicks a slot */
-.time-chip.selected{background:#ffffff;color:#000000;border:3px solid #000000}
+.time-chip.selected{background:#ffffff;color:#000000;border:6px solid #000000}
 .intake-form{margin-top:14px;background:var(--card);padding:12px;border-radius:10px}
 .intake-form h4{margin:0 0 12px;font-size:2.4rem;text-align:center;color:var(--text);font-weight:700}
 .intake-form .form-row{margin-bottom:8px}
@@ -180,10 +180,10 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .intake-form input{width:100%;padding:16px 12px;border-radius:12px;border:5px solid rgba(42,42,42,0.16);margin-top:6px;min-height:92px;resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600}
 .intake-form textarea{width:100%;padding:16px 12px 32px;border-radius:12px;border:5px solid rgba(42,42,42,0.16);margin-top:6px;min-height:160px;resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;line-height:1.4}
 .custom-select-wrapper{width:100%;margin-top:6px}
-.custom-select{position:relative;width:100%;background:#fff;border:5px solid #000;border-radius:12px;cursor:pointer}
+.custom-select{position:relative;width:100%;background:#fff;border:6px solid #000;border-radius:12px;cursor:pointer}
 .custom-select-header{position:relative;padding:16px 12px 16px 60px;font-size:1.35rem;color:#0b0b0b;font-weight:600;display:flex;justify-content:flex-start;align-items:center;line-height:1;min-height:92px;box-sizing:border-box}
-.custom-select-header::after{content:"";position:absolute;left:14px;top:50%;width:26px;height:26px;transform:translateY(-50%);background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5 8l7 8 7-8' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat}
-.custom-select-dropdown{display:none;position:absolute;top:calc(100% - 6px);left:-5px;right:-5px;background:#fff;border:5px solid #000;border-top:none;border-radius:0 0 12px 12px;z-index:100;max-height:200px;overflow-y:auto}
+.custom-select-header::after{content:"";position:absolute;left:22px;top:50%;width:0;height:0;transform:translateY(-50%);border-left:10px solid transparent;border-right:10px solid transparent;border-top:12px solid #000}
+.custom-select-dropdown{display:none;position:absolute;top:calc(100% - 6px);left:-5px;right:-5px;background:#fff;border:6px solid #000;border-top:none;border-radius:0 0 12px 12px;z-index:100;max-height:200px;overflow-y:auto}
 .custom-select.open .custom-select-dropdown{display:block}
 .custom-option{padding:16px 12px;font-size:1.35rem;color:#0b0b0b;cursor:pointer;transition:background .2s;white-space:nowrap;font-weight:600}
 .custom-option:hover{background:#f0f0f0}
@@ -194,13 +194,17 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   0%{transform:scale(1)}
   100%{transform:scale(1.02)}
 }
-.attachment-dropzone{margin-top:8px;border:2px dashed rgba(11,11,11,0.24);border-radius:16px;padding:18px;background:linear-gradient(135deg, rgba(11,11,11,0.03), rgba(11,11,11,0.06));cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;min-height:132px;justify-content:center;position:relative;overflow:hidden}
+.attachment-dropzone{margin-top:8px;border:6px dashed rgba(11,11,11,0.24);border-radius:16px;padding:18px;background:linear-gradient(135deg, rgba(11,11,11,0.03), rgba(11,11,11,0.06));cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;min-height:132px;justify-content:center;position:relative;overflow:hidden}
 .attachment-dropzone::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.7) 50%, transparent 100%);transform:translateX(-120%);transition:transform .7s ease}
 .attachment-dropzone:hover::before,.attachment-dropzone.drag-active::before{transform:translateX(120%)}
-.attachment-dropzone:hover,.attachment-dropzone.drag-active{transform:translateY(-2px) scale(1.01);border:6px solid #000;box-shadow:none;background:linear-gradient(135deg, rgba(255,255,255,0.95), rgba(11,11,11,0.04))}
+.attachment-dropzone:hover,.attachment-dropzone.drag-active{transform:translateY(-2px) scale(1.01);border:6px solid #000;box-shadow:none;background:#000;color:#fff}
+.attachment-dropzone:hover .attachment-dropzone__content strong,
+.attachment-dropzone:hover .attachment-dropzone__content p,
+.attachment-dropzone.drag-active .attachment-dropzone__content strong,
+.attachment-dropzone.drag-active .attachment-dropzone__content p{color:#fff}
 .attachment-dropzone.drag-active{animation:attachmentPulse .6s ease infinite alternate}
-.attachment-dropzone.has-files{border-color:#000;background:linear-gradient(135deg,#0b0b0b,#2e2e2e);color:#fff}
-.attachment-dropzone.has-files:hover,.attachment-dropzone.has-files.drag-active{transform:none;border-color:#000;background:linear-gradient(135deg,#0b0b0b,#2e2e2e);box-shadow:none}
+.attachment-dropzone.has-files{border:6px solid #000;background:linear-gradient(135deg,#0b0b0b,#2e2e2e);color:#fff}
+.attachment-dropzone.has-files:hover,.attachment-dropzone.has-files.drag-active{transform:none;border:6px solid #000;background:#000;box-shadow:none}
 .attachment-dropzone.has-files .attachment-dropzone__content p,.attachment-dropzone.has-files .attachment-status{color:rgba(255,255,255,0.8)}
 .attachment-dropzone__icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#000;box-shadow:0 8px 20px rgba(11,11,11,0.12);font-size:1.25rem}
 .attachment-dropzone__content strong{display:block;font-size:1rem;font-weight:700}
@@ -218,13 +222,15 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .attachment-remove:focus{opacity:1}
 .intake-form textarea{overflow:auto;box-sizing:border-box;display:block}
 .intake-form textarea::-webkit-resizer{display:none}
-.intake-form input:focus, .intake-form textarea:focus{border:6px solid #000;box-shadow:none;outline:none;}
+.intake-form input:focus, .intake-form textarea:focus,
+.intake-form input.filled,
+.intake-form textarea.filled{border:6px solid #000;box-shadow:none;outline:none;}
 .custom-select.focus .custom-select-header{border:6px solid #000;padding:14px 12px 14px 58px;}
 .intake-form input[type=date], .intake-form input[type=time]{color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;padding:16px 12px 16px 60px;appearance:none;-webkit-appearance:none;-moz-appearance:none;background-repeat:no-repeat;background-position:left 14px center;background-size:26px 26px}
 
-.intake-form input[type=date]{background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='5' width='16' height='15' rx='2' ry='2' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M8 2v4M16 2v4M4 9h16' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")}
+.intake-form input[type=date] { background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='5' width='16' height='15' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M8 2v4M16 2v4M4 9h16' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") }
 
-.intake-form input[type=time]{background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M12 7v5l3 3' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3E%3C/svg%3E")}
+.intake-form input[type=time] { background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M12 7v5l3 3' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='square'/%3E%3E%3C/svg%3E") }
 
 .intake-form input[type=date]::-webkit-calendar-picker-indicator, .intake-form input[type=time]::-webkit-calendar-picker-indicator{opacity:0;display:none;width:0;height:0}
 /* Placeholder styling: match custom-select header (bold, same font-size) */
@@ -244,7 +250,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .intake-status{margin-top:8px;color:var(--muted);font-size:0.95rem}
 .coverage-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
 .coverage-list{list-style:none;padding:0;margin:0 0 12px 0}
-.coverage-list li{padding:8px 10px;border-radius:8px;cursor:pointer;background:transparent;border:3px solid rgba(42,42,42,0.03);margin-bottom:8px;font-size:0.8rem}
+.coverage-list li{padding:8px 10px;border-radius:8px;cursor:pointer;background:transparent;border:6px solid rgba(42,42,42,0.03);margin-bottom:8px;font-size:0.8rem}
 .coverage-list li:hover{background:rgba(214,167,122,0.06)}
 .coverage-list li.selected{background:var(--accent);color:white}
 .map-actions{margin-bottom:12px}
@@ -272,12 +278,15 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 
 /* FAQ Section */
 .faq-container{display:grid;gap:12px;margin-top:18px}
-.faq-item{border:3px solid rgba(11,11,11,0.1);border-radius:12px;overflow:hidden;background:#fff}
+.faq-item{border:6px solid #000;border-radius:12px;overflow:hidden;background:#fff}
 .faq-question{width:100%;padding:18px;text-align:left;background:var(--card);border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1.05rem;color:var(--text);transition:background .2s ease}
 .faq-question:hover{background:rgba(11,11,11,0.05)}
-.faq-question:focus{outline:2px solid var(--accent);outline-offset:-2px}
+.faq-question:focus{outline:none}
+.faq-question:focus-visible{outline:6px solid var(--accent);outline-offset:-2px}
 .faq-title{flex:1;text-align:left}
-.faq-toggle{font-size:1.5rem;font-weight:700;min-width:24px;text-align:center;transition:transform .3s ease}
+.faq-toggle{display:grid;place-items:center;width:24px;height:24px;min-width:24px;flex:0 0 24px;color:#0b0b0b;transition:transform .3s ease}
+.faq-toggle svg{display:block;width:18px;height:18px;overflow:visible;fill:none !important;stroke:#0b0b0b !important;stroke-width:2.5 !important;stroke-linecap:round;stroke-linejoin:round;opacity:1}
+.faq-toggle svg path{fill:none !important;stroke:#0b0b0b !important;stroke-width:2.5 !important;stroke-linecap:round;stroke-linejoin:round}
 .faq-question.active .faq-toggle{transform:rotate(45deg)}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 18px}
 .faq-question.active ~ .faq-answer{max-height:500px;padding:0 18px 18px 18px}
@@ -343,14 +352,14 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   }
 
   /* Calendar: use fluid columns and square cells that scale to available width */
-  .calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-top:8px}
-  .calendar-day{width:100%;aspect-ratio:1/1;height:auto;padding:0;border-radius:6px}
+  .booking-card{--calendar-gap:8px}
+  .calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--calendar-gap);margin-top:8px}
+  .calendar-day{width:100%;aspect-ratio:1/1;height:auto;padding:0;border-radius:0}
   .calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
   .calendar-toolbar h3{flex:1;text-align:center;margin:0}
   .weekdays{grid-auto-flow:column;overflow-x:auto;gap:8px;scrollbar-width:none;-ms-overflow-style:none}
   .weekdays::-webkit-scrollbar{display:none}
   .weekdays span{min-width:32px}
-  .icon-btn{width:44px;height:44px;min-width:44px;min-height:44px}
 
   /* Make form controls consistent on small screens */
   .intake-form input{min-height:92px;padding:10px 12px;font-size:1rem}
@@ -422,14 +431,14 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   .hero-actions .btn-secondary{display:none}
 
   /* Calendar: use fluid columns and square cells that scale to available width */
-  .calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-top:8px}
-  .calendar-day{width:100%;aspect-ratio:1/1;height:auto;padding:0;border-radius:6px}
+  .booking-card{--calendar-gap:8px}
+  .calendar-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--calendar-gap);margin-top:8px}
+  .calendar-day{width:100%;aspect-ratio:1/1;height:auto;padding:0;border-radius:0}
   .calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
   .calendar-toolbar h3{flex:1;text-align:center;margin:0}
   .weekdays{grid-auto-flow:column;overflow-x:auto;gap:8px;scrollbar-width:none;-ms-overflow-style:none}
   .weekdays::-webkit-scrollbar{display:none}
   .weekdays span{min-width:32px}
-  .icon-btn{width:44px;height:44px;min-width:44px;min-height:44px}
 
   /* Make form controls more compact on small screens */
   .intake-form input,.intake-form textarea{min-height:48px;padding:10px 12px;font-size:1rem}

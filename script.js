@@ -462,6 +462,23 @@ if(attachmentInput && attachmentDropzone){
   });
 }
 
+const intakeFields = document.querySelectorAll(
+  '.intake-form input[type="text"], .intake-form input[type="email"], .intake-form input[type="tel"], .intake-form input[type="date"], .intake-form input[type="time"], .intake-form textarea'
+);
+
+function updateFilledState(field) {
+  field.classList.toggle('filled', field.value.trim().length > 0);
+}
+
+function updateAllFilledStates() {
+  intakeFields.forEach(updateFilledState);
+}
+
+intakeFields.forEach(field => {
+  field.addEventListener('input', () => updateFilledState(field));
+  updateFilledState(field);
+});
+
 if(intakeForm){
   intakeForm.addEventListener('submit', (e)=>{
     e.preventDefault();
@@ -483,6 +500,7 @@ if(intakeForm){
     intakeStatus.textContent='Request prepared — your mail client should open. Saved locally.';
     intakeForm.reset();
     resetAttachmentUI();
+    updateAllFilledStates();
   });
-  if(intakeClear){ intakeClear.addEventListener('click', ()=>{ intakeForm.reset(); intakeStatus.textContent='Form cleared.'; resetAttachmentUI(); }); }
+  if(intakeClear){ intakeClear.addEventListener('click', ()=>{ intakeForm.reset(); intakeStatus.textContent='Form cleared.'; resetAttachmentUI(); updateAllFilledStates(); }); }
 }
