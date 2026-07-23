@@ -120,7 +120,25 @@
       options.forEach(o => {
         if(o.getAttribute('data-value') === current) o.style.display = 'none'; else o.style.display = '';
       });
+      // before toggling open, compute dropdown width/position so it matches the header exactly
+      const dropdown = select.querySelector('.custom-select-dropdown');
+      if(dropdown){
+        // reset inline styles first
+        dropdown.style.width = '';
+        dropdown.style.left = '';
+        dropdown.style.right = '';
+      }
       select.classList.toggle('open');
+      if(select.classList.contains('open') && dropdown){
+        // Measure the select control and apply exact width to dropdown to avoid visual mismatch across viewports
+        const selRect = select.getBoundingClientRect();
+        const borderLeft = parseFloat(window.getComputedStyle(select).borderLeftWidth) || 0;
+        // Set dropdown to the full width of the select (including borders) and offset by negative left border
+        dropdown.style.boxSizing = 'border-box';
+        dropdown.style.width = `${Math.round(selRect.width)}px`;
+        dropdown.style.left = `${-Math.round(borderLeft)}px`;
+        dropdown.style.right = 'auto';
+      }
     });
     
     // Handle option selection
