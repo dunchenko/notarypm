@@ -203,8 +203,16 @@
                     <div class="custom-option" data-value="Notarization (standard)">Notarization (standard)</div>
                     <div class="custom-option" data-value="Certified True Copy">Certified True Copy</div>
                     <div class="custom-option" data-value="Real Estate Documents">Real Estate Documents</div>
-                    <div class="custom-option" data-value="Travel Consent">Travel Consent</div>
-                  </div>
+                    <div class="custom-option" data-value="Travel Consent">Travel Consent</div>                      <div class="custom-option" data-value="Affidavit & Statutory Declaration">Affidavit & Statutory Declaration</div>
+                      <div class="custom-option" data-value="Commissioner of Oaths">Commissioner of Oaths</div>
+                      <div class="custom-option" data-value="Power of Attorney Documents">Power of Attorney Documents</div>
+                      <div class="custom-option" data-value="Corporate & Business Documents">Corporate & Business Documents</div>
+                      <div class="custom-option" data-value="Witnessing Signatures">Witnessing Signatures</div>
+                      <div class="custom-option" data-value="Vehicle Transfer Documents">Vehicle Transfer Documents</div>
+                      <div class="custom-option" data-value="Estate Planning Documents">Estate Planning Documents</div>
+                      <div class="custom-option" data-value="Remote Online Notarization (RON)">Remote Online Notarization (RON)</div>
+                      <div class="custom-option" data-value="Document Authentication">Document Authentication</div>
+                      <div class="custom-option" data-value="Immigration & Travel Papers">Immigration & Travel Papers</div>                  </div>
                 </div>
                 <input type="hidden" name="service" value="Notarization (standard)">
               </div></label></div>
@@ -343,9 +351,38 @@
           </svg>
           notary@hannadunchenko.com
         </a>
-        <p>© 2026 Notaries.</p>
+        <div>
+          <p>© 2026 Notaries.</p>
+          <p class="footer-links"><a href="#" data-modal-target="termsModal">Terms</a> · <a href="#" data-modal-target="privacyModal">Privacy</a></p>
+        </div>
       </div>
     </footer>
+
+    <div id="termsModal" class="modal-overlay" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+        <button type="button" class="modal-close" aria-label="Close terms modal">×</button>
+        <h2 id="termsTitle">Terms of Service</h2>
+        <p>Welcome to Notaries. Use of this website and our scheduling service is subject to the terms below. By booking a service, you agree to our appointment, cancellation, and service terms as described here.</p>
+        <h3>Service agreements</h3>
+        <p>Appointments may be scheduled for mobile or in-office notarization across Ontario. Fees are set at the time of booking and may include travel time, mileage, and delivery charges where applicable.</p>
+        <h3>Liability</h3>
+        <p>We act as an independent notary service in Ontario and are not responsible for third-party travel or delivery providers. All documents are verified and notarized in accordance with provincial requirements.</p>
+        <h3>Trademark notice</h3>
+        <p>Uber is a registered trademark of Uber Technologies, Inc. This website is an independent service and is not affiliated with Uber Technologies, Inc.</p>
+      </div>
+    </div>
+
+    <div id="privacyModal" class="modal-overlay" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+        <button type="button" class="modal-close" aria-label="Close privacy modal">×</button>
+        <h2 id="privacyTitle">Privacy Policy</h2>
+        <p>Your privacy matters to us. We collect only the minimum personal information required to process appointment requests and to communicate with you about your notarization.</p>
+        <h3>Information use</h3>
+        <p>Contact details, preferred appointment dates, and document information are used solely to fulfill service requests and to provide follow-up support. We do not share your personal information with third parties unless required by law.</p>
+        <h3>Security</h3>
+        <p>We take reasonable steps to protect your information in storage and transit. If you have questions about privacy practices, please contact us at notary@hannadunchenko.com.</p>
+      </div>
+    </div>
 
     <!-- Leaflet scripts removed (map block deleted) -->
     <script src="config.js"></script>

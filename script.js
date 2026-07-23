@@ -41,6 +41,47 @@
   }
 })();
 
+(function(){
+  const modalTriggers = document.querySelectorAll('[data-modal-target]');
+  const modalClosers = document.querySelectorAll('.modal-close');
+  const modalOverlays = document.querySelectorAll('.modal-overlay');
+
+  function closeModal(modal){
+    modal.classList.remove('active');
+    document.body.classList.remove('modal-open');
+    modal.setAttribute('aria-hidden', 'true');
+  }
+
+  function openModal(modal){
+    modal.classList.add('active');
+    document.body.classList.add('modal-open');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  modalTriggers.forEach(trigger => {
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.getElementById(trigger.dataset.modalTarget);
+      if(target) openModal(target);
+    });
+  });
+
+  modalClosers.forEach(button => {
+    button.addEventListener('click', () => {
+      const modal = button.closest('.modal-overlay');
+      if(modal) closeModal(modal);
+    });
+  });
+
+  modalOverlays.forEach(overlay => {
+    overlay.addEventListener('click', (e) => {
+      if(e.target === overlay){
+        closeModal(overlay);
+      }
+    });
+  });
+})();
+
 // Initialize custom selects first
 (function(){
   const customSelects = document.querySelectorAll('.custom-select');
