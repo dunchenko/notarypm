@@ -101,8 +101,9 @@ main{flex:1}
 
 /* Minimalist, full-width nav styling */
 .nav{background:transparent;box-shadow:none}
-.nav-links{display:flex;align-items:center;gap:18px;background:transparent;padding:0;border:none}
-.nav-links a{padding:8px 6px}
+.nav-links{display:flex;align-items:center;gap:18px;background:transparent;padding:0;border:none;flex-wrap:wrap;justify-content:flex-end}
+.nav-links a{padding:8px 6px;white-space:nowrap}
+.nav-links .phone-link{color:var(--accent);font-weight:700}
 .hamburger{z-index:70}
 
 /* Global overlay menu (applies on all viewport sizes when menu-theme-bw is active) */
