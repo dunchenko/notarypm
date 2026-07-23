@@ -200,8 +200,8 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .intake-form input{width:100%;padding:16px 12px 16px 60px;border-radius:12px;border:var(--control-border-width) solid #000;margin-top:6px;height:var(--control-min-height);min-height:0;box-sizing:border-box;resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600}
 .intake-form textarea{width:100%;padding:16px 12px 32px;border-radius:12px;border:var(--control-border-width) solid #000;margin-top:6px;min-height:var(--textarea-min-height);resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;line-height:1.4}
 .custom-select-wrapper{width:100%;margin-top:6px}
-.custom-select{position:relative;width:100%;background:#fff;border:var(--control-border-width) solid #000;border-radius:12px;cursor:pointer;height:var(--control-min-height)}
-.custom-select-header{position:relative;padding:16px 12px 16px 60px;font-size:1.35rem;color:#0b0b0b;font-weight:600;display:flex;justify-content:flex-start;align-items:center;line-height:1;height:100%;box-sizing:border-box}
+.custom-select{position:relative;width:100%;background:#fff;border:var(--control-border-width) solid #000;border-radius:12px;cursor:pointer;min-height:var(--control-min-height)}
+.custom-select-header{position:relative;padding:16px 12px 16px 60px;font-size:1.35rem;color:#0b0b0b;font-weight:600;display:flex;justify-content:flex-start;align-items:center;line-height:1;min-height:var(--control-min-height);box-sizing:border-box}
 .custom-select-header::after{content:"";position:absolute;left:22px;top:50%;width:0;height:0;transform:translateY(-50%);border-left:10px solid transparent;border-right:10px solid transparent;border-top:12px solid #000}
   .custom-select-dropdown{display:none;position:absolute;top:calc(100% - var(--control-border-width));left:calc(-1 * var(--control-border-width));right:calc(-1 * var(--control-border-width));background:#fff;border:var(--control-border-width) solid #000;border-top:none;border-radius:0 0 12px 12px;z-index:1000;max-height:none;overflow-y:auto;box-shadow:0 12px 30px rgba(11,11,11,0.08)}
 .custom-select.open .custom-select-dropdown{display:block}
@@ -391,8 +391,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   /* Make form controls consistent on small screens — use variables so narrower breakpoints can override */
   .intake-form input{height:var(--control-min-height);min-height:0;padding:10px 12px 10px 60px;font-size:1rem;border:var(--control-border-width) solid #000}
   .intake-form textarea{min-height:var(--textarea-min-height);padding:10px 12px;font-size:1rem;border:var(--control-border-width) solid #000}
-  .custom-select{height:var(--control-min-height)}
-  .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;height:100%}
+  .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;min-height:var(--control-min-height);border:var(--control-border-width) solid #000}
 }
 
 @media (max-width:600px){
@@ -472,8 +471,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 
   /* Make form controls more compact on small screens */
     .intake-form input,.intake-form textarea{height:var(--control-min-height);min-height:0;padding:10px 12px 10px 60px;font-size:1rem;border:var(--control-border-width) solid #000}
-    .custom-select{height:var(--control-min-height)}
-    .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;height:100%}
+    .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;border:var(--control-border-width) solid #000}
 }
 
 @media (max-width:420px){

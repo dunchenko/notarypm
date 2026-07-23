@@ -197,11 +197,11 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .intake-form h4{margin:0 0 12px;font-size:2.4rem;text-align:center;color:var(--text);font-weight:700}
 .intake-form .form-row{margin-bottom:8px}
 .intake-form label{display:block;font-size:0.95rem;color:var(--muted)}
-.intake-form input{width:100%;padding:16px 12px 16px 60px;border-radius:12px;border:var(--control-border-width) solid #000;margin-top:6px;height:var(--control-min-height);min-height:0;box-sizing:border-box;resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600}
-.intake-form textarea{width:100%;padding:16px 12px 32px;border-radius:12px;border:var(--control-border-width) solid #000;margin-top:6px;min-height:var(--textarea-min-height);resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;line-height:1.4}
+.intake-form input{width:100%;padding:16px 12px;border-radius:12px;border:var(--control-border-width) solid rgba(42,42,42,0.16);margin-top:6px;min-height:var(--control-min-height);resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600}
+.intake-form textarea{width:100%;padding:16px 12px 32px;border-radius:12px;border:var(--control-border-width) solid rgba(42,42,42,0.16);margin-top:6px;min-height:var(--textarea-min-height);resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;line-height:1.4}
 .custom-select-wrapper{width:100%;margin-top:6px}
-.custom-select{position:relative;width:100%;background:#fff;border:var(--control-border-width) solid #000;border-radius:12px;cursor:pointer;height:var(--control-min-height)}
-.custom-select-header{position:relative;padding:16px 12px 16px 60px;font-size:1.35rem;color:#0b0b0b;font-weight:600;display:flex;justify-content:flex-start;align-items:center;line-height:1;height:100%;box-sizing:border-box}
+.custom-select{position:relative;width:100%;background:#fff;border:var(--control-border-width) solid #000;border-radius:12px;cursor:pointer}
+.custom-select-header{position:relative;padding:16px 12px 16px 60px;font-size:1.35rem;color:#0b0b0b;font-weight:600;display:flex;justify-content:flex-start;align-items:center;line-height:1;min-height:var(--control-min-height);box-sizing:border-box}
 .custom-select-header::after{content:"";position:absolute;left:22px;top:50%;width:0;height:0;transform:translateY(-50%);border-left:10px solid transparent;border-right:10px solid transparent;border-top:12px solid #000}
   .custom-select-dropdown{display:none;position:absolute;top:calc(100% - var(--control-border-width));left:calc(-1 * var(--control-border-width));right:calc(-1 * var(--control-border-width));background:#fff;border:var(--control-border-width) solid #000;border-top:none;border-radius:0 0 12px 12px;z-index:1000;max-height:none;overflow-y:auto;box-shadow:0 12px 30px rgba(11,11,11,0.08)}
 .custom-select.open .custom-select-dropdown{display:block}
@@ -245,7 +245,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .intake-form input:focus, .intake-form textarea:focus,
 .intake-form input.filled,
 .intake-form textarea.filled{border:var(--control-border-width) solid #000;box-shadow:none;outline:none;}
-.custom-select.focus .custom-select-header{padding:14px 12px 14px 58px;}
+.custom-select.focus .custom-select-header{border:var(--control-border-width) solid #000;padding:14px 12px 14px 58px;}
 .intake-form input[type=date], .intake-form input[type=time]{color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;padding:16px 12px 16px 60px;appearance:none;-webkit-appearance:none;-moz-appearance:none;background-repeat:no-repeat;background-position:left 14px center;background-size:26px 26px}
 
 .intake-form input[type=date] { background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='5' width='16' height='15' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M8 2v4M16 2v4M4 9h16' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") }
@@ -389,10 +389,9 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   .weekdays span{min-width:32px}
 
   /* Make form controls consistent on small screens — use variables so narrower breakpoints can override */
-  .intake-form input{height:var(--control-min-height);min-height:0;padding:10px 12px 10px 60px;font-size:1rem;border:var(--control-border-width) solid #000}
-  .intake-form textarea{min-height:var(--textarea-min-height);padding:10px 12px;font-size:1rem;border:var(--control-border-width) solid #000}
-  .custom-select{height:var(--control-min-height)}
-  .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;height:100%}
+  .intake-form input{min-height:var(--control-min-height);padding:10px 12px;font-size:1rem}
+  .intake-form textarea{min-height:var(--textarea-min-height);padding:10px 12px;font-size:1rem}
+  .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;min-height:var(--control-min-height)}
 }
 
 @media (max-width:600px){
@@ -471,9 +470,8 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   .weekdays span{min-width:32px}
 
   /* Make form controls more compact on small screens */
-    .intake-form input,.intake-form textarea{height:var(--control-min-height);min-height:0;padding:10px 12px 10px 60px;font-size:1rem;border:var(--control-border-width) solid #000}
-    .custom-select{height:var(--control-min-height)}
-    .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;height:100%}
+  .intake-form input,.intake-form textarea{min-height:var(--control-min-height);padding:10px 12px;font-size:1rem}
+  .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem}
 }
 
 @media (max-width:420px){

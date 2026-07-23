@@ -10,9 +10,9 @@
   --radius: 12px;
   --container: 1100px;
   /* Controls sizing variables (can be updated at runtime via JS) */
-  --control-min-height: 82px;
+  --control-min-height: 92px;
   --textarea-min-height: 160px;
-  --control-border-width: 6px;
+  --control-border-width: 5px;
   --faq-border-width: 6px;
 }
 
@@ -175,7 +175,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .calendar-toolbar h3{margin:0;font-size:1rem;text-align:center}
 .calendar-toolbar{gap:8px}
 .time-slots{margin-top:24px;display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:8px;overflow-x:auto;padding-bottom:4px}
-.time-chip{display:inline-grid;place-items:center;background:#000000;color:#ffffff;padding:6px 12px;border-radius:999px;cursor:pointer;border:var(--control-border-width) solid #000000;font-weight:700;font-size:clamp(0.95rem,1.6vw,1.15rem);line-height:1;transition:transform .16s ease,box-shadow .16s ease,background .16s ease;text-decoration:none;white-space:nowrap;height:auto;min-height:44px}
+.time-chip{display:inline-grid;place-items:center;background:#000000;color:#ffffff;padding:6px 12px;border-radius:999px;cursor:pointer;border:6px solid #000000;font-weight:700;font-size:clamp(0.95rem,1.6vw,1.15rem);line-height:1;transition:transform .16s ease,box-shadow .16s ease,background .16s ease;text-decoration:none;white-space:nowrap;height:auto;min-height:44px}
 .time-chip::before{content:none}
 .time-chip:hover{background:#000000}
 .time-chip:focus{outline:none}
@@ -192,18 +192,18 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 }
 .time-chip.disabled-future:hover{background: #000}
 /* Selected state for time chip when user clicks a slot */
-.time-chip.selected{background:#ffffff;color:#000000;border:var(--control-border-width) solid #000000}
+.time-chip.selected{background:#ffffff;color:#000000;border:6px solid #000000}
 .intake-form{margin-top:14px;background:var(--card);padding:12px;border-radius:10px}
 .intake-form h4{margin:0 0 12px;font-size:2.4rem;text-align:center;color:var(--text);font-weight:700}
 .intake-form .form-row{margin-bottom:8px}
 .intake-form label{display:block;font-size:0.95rem;color:var(--muted)}
-.intake-form input{width:100%;padding:16px 12px 16px 60px;border-radius:12px;border:var(--control-border-width) solid #000;margin-top:6px;height:var(--control-min-height);min-height:0;box-sizing:border-box;resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600}
-.intake-form textarea{width:100%;padding:16px 12px 32px;border-radius:12px;border:var(--control-border-width) solid #000;margin-top:6px;min-height:var(--textarea-min-height);resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;line-height:1.4}
+.intake-form input{width:100%;padding:16px 12px;border-radius:12px;border:var(--control-border-width) solid rgba(42,42,42,0.16);margin-top:6px;min-height:var(--control-min-height);resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600}
+.intake-form textarea{width:100%;padding:16px 12px 32px;border-radius:12px;border:var(--control-border-width) solid rgba(42,42,42,0.16);margin-top:6px;min-height:var(--textarea-min-height);resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;line-height:1.4}
 .custom-select-wrapper{width:100%;margin-top:6px}
-.custom-select{position:relative;width:100%;background:#fff;border:var(--control-border-width) solid #000;border-radius:12px;cursor:pointer;height:var(--control-min-height)}
-.custom-select-header{position:relative;padding:16px 12px 16px 60px;font-size:1.35rem;color:#0b0b0b;font-weight:600;display:flex;justify-content:flex-start;align-items:center;line-height:1;height:100%;box-sizing:border-box}
+.custom-select{position:relative;width:100%;background:#fff;border:6px solid #000;border-radius:12px;cursor:pointer}
+.custom-select-header{position:relative;padding:16px 12px 16px 60px;font-size:1.35rem;color:#0b0b0b;font-weight:600;display:flex;justify-content:flex-start;align-items:center;line-height:1;min-height:var(--control-min-height);box-sizing:border-box}
 .custom-select-header::after{content:"";position:absolute;left:22px;top:50%;width:0;height:0;transform:translateY(-50%);border-left:10px solid transparent;border-right:10px solid transparent;border-top:12px solid #000}
-  .custom-select-dropdown{display:none;position:absolute;top:calc(100% - var(--control-border-width));left:calc(-1 * var(--control-border-width));right:calc(-1 * var(--control-border-width));background:#fff;border:var(--control-border-width) solid #000;border-top:none;border-radius:0 0 12px 12px;z-index:1000;max-height:none;overflow-y:auto;box-shadow:0 12px 30px rgba(11,11,11,0.08)}
+  .custom-select-dropdown{display:none;position:absolute;top:calc(100% - 6px);left:-6px;right:-6px;background:#fff;border:6px solid #000;border-top:none;border-radius:0 0 12px 12px;z-index:1000;max-height:none;overflow-y:auto;box-shadow:0 12px 30px rgba(11,11,11,0.08)}
 .custom-select.open .custom-select-dropdown{display:block}
 .custom-option{padding:16px 12px;font-size:1.35rem;color:#0b0b0b;cursor:pointer;transition:background .2s;white-space:nowrap;font-weight:600}
 .custom-option:hover{background:#f0f0f0}
@@ -214,17 +214,17 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   0%{transform:scale(1)}
   100%{transform:scale(1.02)}
 }
-.attachment-dropzone{margin-top:8px;border:var(--control-border-width) dashed #000;border-radius:16px;padding:18px;background:#fff;cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;min-height:132px;justify-content:center;position:relative;overflow:hidden}
+.attachment-dropzone{margin-top:8px;border:6px dashed #000;border-radius:16px;padding:18px;background:#fff;cursor:pointer;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease,background .25s ease;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;min-height:132px;justify-content:center;position:relative;overflow:hidden}
 .attachment-dropzone::before{content:"";position:absolute;inset:-1px;border-radius:inherit;background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.7) 50%, transparent 100%);transform:translateX(-120%);transition:transform .7s ease}
 .attachment-dropzone:hover::before,.attachment-dropzone.drag-active::before{transform:translateX(120%)}
-.attachment-dropzone:hover,.attachment-dropzone.drag-active{transform:translateY(-2px) scale(1.01);border:var(--control-border-width) dashed #000;box-shadow:none;background:#fff;color:#000}
+.attachment-dropzone:hover,.attachment-dropzone.drag-active{transform:translateY(-2px) scale(1.01);border:6px dashed #000;box-shadow:none;background:#fff;color:#000}
 .attachment-dropzone:hover .attachment-dropzone__content strong,
 .attachment-dropzone:hover .attachment-dropzone__content p,
 .attachment-dropzone.drag-active .attachment-dropzone__content strong,
 .attachment-dropzone.drag-active .attachment-dropzone__content p{color:#000}
 .attachment-dropzone.drag-active{animation:attachmentPulse .6s ease infinite alternate}
-.attachment-dropzone.has-files{border:var(--control-border-width) dashed #000;background:#fff;color:#000}
-.attachment-dropzone.has-files:hover,.attachment-dropzone.has-files.drag-active{transform:none;border:var(--control-border-width) dashed #000;background:#fff;box-shadow:none}
+.attachment-dropzone.has-files{border:6px dashed #000;background:#fff;color:#000}
+.attachment-dropzone.has-files:hover,.attachment-dropzone.has-files.drag-active{transform:none;border:6px dashed #000;background:#fff;box-shadow:none}
 .attachment-dropzone.has-files .attachment-dropzone__content p,.attachment-dropzone.has-files .attachment-status{color:rgba(11,11,11,0.8)}
 .attachment-dropzone__icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#000;box-shadow:0 8px 20px rgba(11,11,11,0.12);font-size:1.25rem}
 .attachment-dropzone__content strong{display:block;font-size:1rem;font-weight:700}
@@ -244,8 +244,8 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .intake-form textarea::-webkit-resizer{display:none}
 .intake-form input:focus, .intake-form textarea:focus,
 .intake-form input.filled,
-.intake-form textarea.filled{border:var(--control-border-width) solid #000;box-shadow:none;outline:none;}
-.custom-select.focus .custom-select-header{padding:14px 12px 14px 58px;}
+.intake-form textarea.filled{border:6px solid #000;box-shadow:none;outline:none;}
+.custom-select.focus .custom-select-header{border:6px solid #000;padding:14px 12px 14px 58px;}
 .intake-form input[type=date], .intake-form input[type=time]{color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;padding:16px 12px 16px 60px;appearance:none;-webkit-appearance:none;-moz-appearance:none;background-repeat:no-repeat;background-position:left 14px center;background-size:26px 26px}
 
 .intake-form input[type=date] { background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='4' y='5' width='16' height='15' fill='none' stroke='%23000' stroke-width='2'/%3E%3Cpath d='M8 2v4M16 2v4M4 9h16' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") }
@@ -313,9 +313,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 
 /* Control sizing driven by variables (JS may update these at runtime) */
 .intake-form input, .intake-form input[type=date], .intake-form input[type=time], .custom-select-header {
-  height: var(--control-min-height);
-  min-height: 0;
-  box-sizing: border-box;
+  min-height: var(--control-min-height);
 }
 .intake-form textarea{
   min-height: var(--textarea-min-height);
@@ -388,11 +386,10 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   .weekdays::-webkit-scrollbar{display:none}
   .weekdays span{min-width:32px}
 
-  /* Make form controls consistent on small screens — use variables so narrower breakpoints can override */
-  .intake-form input{height:var(--control-min-height);min-height:0;padding:10px 12px 10px 60px;font-size:1rem;border:var(--control-border-width) solid #000}
-  .intake-form textarea{min-height:var(--textarea-min-height);padding:10px 12px;font-size:1rem;border:var(--control-border-width) solid #000}
-  .custom-select{height:var(--control-min-height)}
-  .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;height:100%}
+  /* Make form controls consistent on small screens */
+  .intake-form input{min-height:92px;padding:10px 12px;font-size:1rem}
+  .intake-form textarea{min-height:160px;padding:10px 12px;font-size:1rem}
+  .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;min-height:92px}
 }
 
 @media (max-width:600px){
@@ -471,9 +468,8 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   .weekdays span{min-width:32px}
 
   /* Make form controls more compact on small screens */
-    .intake-form input,.intake-form textarea{height:var(--control-min-height);min-height:0;padding:10px 12px 10px 60px;font-size:1rem;border:var(--control-border-width) solid #000}
-    .custom-select{height:var(--control-min-height)}
-    .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem;height:100%}
+  .intake-form input,.intake-form textarea{min-height:var(--control-min-height);padding:10px 12px;font-size:1rem}
+  .custom-select-header{padding:10px 12px 10px 60px;font-size:1rem}
 }
 
 @media (max-width:420px){
