@@ -4,7 +4,7 @@
 // Leave as an empty string to use Leaflet/OSM fallback (or fallback link) instead.
 window.GOOGLE_MAPS_API_KEY = '';
 
-// Shared settings for making Notaries a satellite of hannadunchenko.com
+// Shared settings for making Notary Services a satellite of hannadunchenko.com
 window.SHARED_SETTINGS = {
 	// Primary domain to sync with
 	mainDomain: 'https://hannadunchenko.com',
