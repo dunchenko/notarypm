@@ -12,10 +12,24 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Prepare files for deployment
+        run: |
+          mkdir -p dist
+          # Copy only necessary files
+          cp index.html dist/
+          cp styles.css dist/
+          cp script.js dist/
+          cp config.js dist/
+          cp favicon.ico dist/
+          cp *.png dist/
+          cp *.jpeg dist/
+          # Optional: copy README if you want it visible on deployment
+          # cp README.md dist/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: ./
-          keep_files: false
+          publish_dir: ./dist
+          keep_files: true
