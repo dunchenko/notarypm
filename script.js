@@ -260,13 +260,31 @@ function renderTimeSlots(iso){
   timeSlots.innerHTML='';
   const defaultSlots = ["18:00","19:00","20:00","21:00"];
   const slots = availability[iso] || defaultSlots;
+  // threshold: disable slots that are within 4 hours (user requested "меньше чем 4 часа")
+  const THRESHOLD_MS = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
   slots.forEach(s=>{
     const btn = document.createElement('button');
     btn.className='time-chip';
     btn.textContent = s;
-    // Single click selects the time into the intake form; double-click opens booking mail
-    btn.addEventListener('click', ()=>selectTimeFromSlot(iso, s, btn));
-    btn.addEventListener('dblclick', ()=>confirmBooking(iso,s));
+    // compute slot datetime in local time and how far away it is
+    try{
+      const slotDate = new Date(`${iso}T${s}:00`);
+      const diff = slotDate - Date.now();
+      // If the slot is sooner than the threshold (less than 4 hours away) or in the past, disable it
+      if(diff < THRESHOLD_MS){
+        btn.disabled = true;
+        btn.setAttribute('aria-disabled', 'true');
+        btn.classList.add('disabled-future');
+      } else {
+        // Single click selects the time into the intake form; double-click opens booking mail
+        btn.addEventListener('click', ()=>selectTimeFromSlot(iso, s, btn));
+        btn.addEventListener('dblclick', ()=>confirmBooking(iso,s));
+      }
+    }catch(e){
+      // fallback: attach handlers if date parsing fails
+      btn.addEventListener('click', ()=>selectTimeFromSlot(iso, s, btn));
+      btn.addEventListener('dblclick', ()=>confirmBooking(iso,s));
+    }
     timeSlots.appendChild(btn);
   });
 }
