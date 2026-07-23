@@ -133,9 +133,10 @@ body.menu-open{overflow:hidden;height:100vh}
 .hero-buttons{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 .hero-image{width:100%;height:auto;min-width:0;max-width:100%;border-radius:24px;object-fit:cover;border:none;box-shadow:0 18px 50px rgba(11,11,11,0.12)}
 .hero-card{width:100%;max-width:360px;margin:0}
-.btn, button, input[type=submit]{display:inline-flex;align-items:center;justify-content:center;height:72px;min-height:72px;padding:0 18px;border-radius:12px;text-decoration:none;line-height:1;box-sizing:border-box;font-weight:600;font-size:1rem}
+.hero-card h3{text-align:center}
+.btn, button, input[type=submit]{display:inline-flex;align-items:center;justify-content:center;height:96px;min-height:96px;padding:0 28px;border-radius:12px;text-decoration:none;line-height:1.35;box-sizing:border-box;font-weight:600;font-size:1.35rem}
 .btn{min-width:92px}
-.btn-primary{background:var(--text);color:#fff;font-weight:600;font-size:1.05rem}
+.btn-primary{background:var(--text);color:#fff;font-weight:600;font-size:1.35rem}
 .btn-secondary{background:transparent;border:6px solid rgba(11,11,11,0.06);color:var(--text);margin-left:8px}
 
 button.calendar-day, .calendar-day{height:auto !important;min-height:0 !important;}
@@ -202,8 +203,11 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .intake-form{margin-top:14px;background:var(--card);padding:12px;border-radius:10px}
 .intake-form h4{margin:0 0 12px;font-size:2.4rem;text-align:center;color:var(--text);font-weight:700}
 .intake-form .form-row{margin-bottom:8px}
-.intake-form label{display:block;font-size:0.95rem;color:var(--muted)}
+.intake-form label{display:block;font-size:0.95rem;color:var(--text)}
 .intake-form input{width:100%;padding:16px 12px;border-radius:12px;border:var(--control-border-width) solid #000;margin-top:6px;height:var(--control-min-height);min-height:0;box-sizing:border-box;resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600}
+
+/* Ensure all labels are displayed in the primary text color (black) */
+label{color:var(--text)}
 .intake-form textarea{width:100%;padding:16px 12px 32px;border-radius:12px;border:var(--control-border-width) solid #000;margin-top:6px;min-height:var(--textarea-min-height);resize:vertical;font-size:1.35rem;background:#fff;color:#0b0b0b;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;line-height:1.4}
 .custom-select-wrapper{width:100%;margin-top:6px}
 .custom-select{position:relative;width:100%;background:#fff;border:var(--control-border-width) solid #000;border-radius:12px;cursor:pointer;height:var(--control-min-height);min-height:var(--control-min-height);display:flex;align-items:center}
@@ -237,7 +241,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .attachment-dropzone__content p{margin:4px 0 0;color:var(--muted);font-size:0.92rem;line-height:1.4}
 .attachment-status{font-size:0.9rem;color:var(--muted);font-weight:600}
 .attachment-list{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
-.attachment-list li{padding:8px 10px;border-radius:10px;background:rgba(11,11,11,0.04);font-size:0.9rem;color:var(--text);display:flex;justify-content:space-between;gap:8px;align-items:center;position:relative}
+.attachment-list li{width:100%;min-height:var(--control-min-height);height:var(--control-min-height);padding:18px 16px;border-radius:12px;border:none;background:#d4d4d4;font-size:1.35rem;color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;font-weight:600;display:flex;justify-content:space-between;gap:8px;align-items:center;position:relative;box-sizing:border-box}
 .attachment-list li::before{content:"✓";color:#000;font-weight:900;margin-left:8px;margin-right:12px;font-size:1.1rem;transition:opacity .2s ease}
 .attachment-list li:hover::before{opacity:0}
 .attachment-list li span{font-weight:600}
@@ -273,6 +277,10 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .intake-form input[type=date]::-webkit-calendar-picker-indicator,
 .intake-form input[type=time]::-webkit-calendar-picker-indicator{filter:brightness(0) saturate(100%);}
 .form-actions{display:flex;gap:8px;margin-top:8px}
+
+/* Make form action buttons match input width inside the intake form */
+.intake-form .form-actions{flex-direction:column;align-items:stretch}
+.intake-form .form-actions .btn{width:100%;min-width:0;display:block}
 .intake-status{margin-top:8px;color:var(--muted);font-size:0.95rem}
 .coverage-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
 .coverage-list{list-style:none;padding:0;margin:0 0 12px 0}
@@ -322,7 +330,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 /* FAQ Section */
 .faq-container{display:grid;gap:12px;margin-top:18px}
 .faq-item{border:var(--faq-border-width) solid #000;border-radius:12px;overflow:hidden;background:#fff}
-.faq-question{width:100%;padding:18px;text-align:left;background:var(--card);border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1.05rem;color:var(--text);transition:background .2s ease}
+.faq-question{width:100%;padding:20px 18px;text-align:left;background:var(--card);border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1.35rem;line-height:1.35;color:var(--text);transition:background .2s ease}
 .faq-question:hover{background:rgba(11,11,11,0.05)}
 .faq-question:focus{outline:none}
 .faq-question:focus-visible{outline:6px solid var(--accent);outline-offset:-2px}
@@ -332,7 +340,8 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .faq-toggle svg path{fill:none !important;stroke:#0b0b0b !important;stroke-width:3.5 !important;stroke-linecap:round;stroke-linejoin:round}
 .faq-question.active .faq-toggle{transform:rotate(45deg)}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 18px}
-.faq-question.active ~ .faq-answer{max-height:500px;padding:0 18px 18px 18px}
+.faq-answer p{font-size:1.1rem;line-height:1.4;color:var(--text);margin:0}
+.faq-question.active ~ .faq-answer{max-height:600px;padding:18px 18px 18px 18px}
 
 /* Control sizing driven by variables (JS may update these at runtime) */
 .intake-form input, .intake-form input[type=date], .intake-form input[type=time], .custom-select-header {
@@ -342,6 +351,15 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 }
 .intake-form textarea{
   min-height: var(--textarea-min-height);
+}
+
+/* Ensure the Notes textarea remains multi-line on small devices.
+   Make the rule specific to the notes field to avoid affecting inputs. */
+.intake-form .notes-field textarea{
+  height: auto !important;
+  min-height: calc(var(--textarea-min-height));
+  max-height: 60vh;
+  resize: vertical;
 }
 
 @media (max-width:900px){
@@ -494,7 +512,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
   .weekdays span{min-width:32px}
 
   /* Make form controls more compact on small screens */
-    .intake-form input,.intake-form textarea{height:var(--control-min-height);min-height:0;padding:10px 12px 10px 60px;font-size:1rem;border:var(--control-border-width) solid #000}
+    .intake-form input,.intake-form textarea{height:var(--control-min-height);min-height:0;padding:10px 12px;font-size:1rem;border:var(--control-border-width) solid #000}
     .custom-select{height:var(--control-min-height)}
     .custom-select-header{padding:10px 44px 10px 12px;font-size:1rem;height:100%}
 }
