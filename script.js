@@ -563,38 +563,14 @@ function updateAllFilledStates() {
   intakeFields.forEach(updateFilledState);
 }
 
-// Autosize helper: reset height then set to scrollHeight (+ small buffer)
-function autosizeTextarea(el){
-  if(!el || el.tagName?.toLowerCase() !== 'textarea') return;
-  try{
-    el.style.height = 'auto';
-    el.style.height = (el.scrollHeight + 2) + 'px';
-  }catch(e){ /* ignore */ }
-}
-
-// Apply filled-state and autosize to all intake fields
+// Apply filled-state to all intake fields
 intakeFields.forEach(field => {
   field.addEventListener('input', () => {
     updateFilledState(field);
-    if(field.tagName.toLowerCase() === 'textarea') autosizeTextarea(field);
   });
   // initial state
   updateFilledState(field);
-  if(field.tagName.toLowerCase() === 'textarea') autosizeTextarea(field);
 });
-
-// Specifically ensure Notes textarea(s) behave correctly: hide native scrollbar and resize on change/resize
-const notesTextareas = document.querySelectorAll('.intake-form .notes-field textarea');
-if(notesTextareas && notesTextareas.length){
-  notesTextareas.forEach(t => {
-    t.style.overflowY = 'hidden';
-    t.addEventListener('change', () => autosizeTextarea(t));
-    // ensure paste events also trigger resize
-    t.addEventListener('paste', () => setTimeout(() => autosizeTextarea(t), 50));
-  });
-  // resize on viewport changes (font scaling, orientation change)
-  window.addEventListener('resize', () => notesTextareas.forEach(autosizeTextarea));
-}
 
 if(intakeForm){
   intakeForm.addEventListener('submit', (e)=>{

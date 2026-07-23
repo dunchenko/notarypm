@@ -1,6 +1,6 @@
 https://dunchenko.github.io/notarypm/
 
-Notary Services — Local preview
+Notary Service — Local preview
 
 How to enable Google Maps iframe embed
 
