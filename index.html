@@ -113,7 +113,11 @@
                       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"></path>
                     </svg>
                   </strong>
-                  <span><sup class="footnote">*</sup>Unlimited addresses: <span id="coverageCount" class="badge">∞</span></span>
+                  <span><sup class="footnote">*</sup>Unlimited addresses: <span id="coverageCount" class="badge">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial" font-size="16" fill="currentColor">∞</text>
+                    </svg>
+                  </span></span>
                 </div>
                 <p class="hero-card-note"><sup class="footnote">*</sup>Ontario coverage includes Uber Business plan. Round-trip cost to your location and back to the notary pickup point is also charged at the appointment rate and added to the total.</p>
               </div>
@@ -462,7 +466,7 @@
         function updateCoverageCount(){
           try{
             var el = document.getElementById('coverageCount');
-            if(el) el.textContent = '∞';
+            if(el) el.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial" font-size="16" fill="currentColor">∞</text></svg>';
           }catch(e){console.warn(e)}
         }
         if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', updateCoverageCount); else updateCoverageCount();

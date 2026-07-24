@@ -328,7 +328,8 @@ label{color:var(--text)}
 .map-plus{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--text);color:#fff;font-weight:700;margin-right:8px;font-size:0.95rem;line-height:1}
 
 /* pill badge for counts */
-.badge{display:inline-grid;place-items:center;padding:6px 14px;border-radius:999px;background:var(--text);color:#fff;font-weight:600;font-size:0.95rem;line-height:1;vertical-align:text-top;transform:translateY(-1px);margin-left:8px}
+.badge{display:inline-grid;place-items:center;padding:4px 10px;border-radius:999px;background:var(--text);color:#fff;font-weight:600;font-size:0.95rem;line-height:1;vertical-align:middle;margin-left:8px}
+.badge svg{width:1.3em;height:1.3em;display:block;fill:currentColor}
 .badge--muted{background:var(--muted);color:#fff}
 .hero-card-note{margin-top:10px;color:var(--muted);font-size:0.95rem;line-height:1.5}
 .map-fallback:hover{opacity:0.9}

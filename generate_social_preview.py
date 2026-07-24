@@ -41,13 +41,13 @@ for width, height, name in [
     title_y = (safe_top + safe_bottom - title_h) // 2 - 26
     draw.text((title_x, title_y), title, fill='white', font=title_font)
 
-    sub = 'CA'
+    sub = '.CA'
     sub_font = fit_font(draw, sub, safe_size * 0.25, safe_size * 0.22, 110)
     sub_box = draw.textbbox((0, 0), sub, font=sub_font)
     sub_w = sub_box[2] - sub_box[0]
     sub_h = sub_box[3] - sub_box[1]
     sub_x = (width - sub_w) // 2
-    sub_y = title_y + title_h + 12
+    sub_y = title_y + title_h + 24
 
     if sub_x < safe_left:
         sub_x = safe_left
