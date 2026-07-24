@@ -4,18 +4,18 @@
 // Leave as an empty string to use Leaflet/OSM fallback (or fallback link) instead.
 window.GOOGLE_MAPS_API_KEY = '';
 
-// Shared settings for making Notary Service a satellite of hannadunchenko.com
+// Shared settings for the primary Notary Service domain
 window.SHARED_SETTINGS = {
 	// Primary domain to sync with
-	mainDomain: 'https://hannadunchenko.com',
+	mainDomain: 'https://notaryservice.ca',
 	// Analytics ID placeholder (Google Analytics / GA4 measurement ID or UA-XXX)
 	analyticsId: '',
 	// Other shared keys (e.g., Google Tag Manager ID) can go here
 	gtmId: '',
-	// Contact sync: email/phone from main site
+	// Contact sync: email/phone from the main site
 	contact: {
-		email: 'notary@hannadunchenko.com',
-		phone: ''
+		email: 'hanna@notaryservice.ca',
+		phone: '+1 (437) 239-6833'
 	}
 };
 

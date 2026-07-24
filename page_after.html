@@ -13,7 +13,6 @@
     <meta property="og:title" content="Notary Service | Trusted Mobile Notary Services in Ontario" />
     <meta property="og:description" content="Fast, reliable, and professional notary services across Ontario with same-day availability." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://notaryservice.ca/" />
     <meta property="og:image" content="social-preview.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -21,6 +20,8 @@
     <meta property="twitter:image" content="social-preview.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preconnect to main site (hannadunchenko) for shared assets and faster cross-site requests -->
+    <link rel="preconnect" href="https://hannadunchenko.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
@@ -60,19 +61,20 @@
       }
     </style>
     <!-- Leaflet removed (map block deleted) -->
-    <link rel="canonical" href="https://notaryservice.ca/" />
+    <!-- Alternate/canonical when Notary Service is a satellite of the main site -->
+    <link rel="alternate" href="https://hannadunchenko.com" hreflang="en" />
+    <!-- If you want to mark main site as canonical, set below via SHARED_SETTINGS.mainDomain or keep commented -->
+    <!-- <link rel="canonical" href="https://hannadunchenko.com/notarypm" /> -->
   </head>
   <body>
     <header class="hero">
       <nav class="nav container">
-        <div class="nav-left">
-          <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-          <a class="brand" href="#">Notary Service</a>
-        </div>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <a class="brand" href="#">Notary Service</a>
         <div class="nav-links" id="navLinks">
           <a href="tel:+14372396833" class="phone-link">+1 (437) 239-6833</a>
           <a href="#booking">Book Now</a>
@@ -91,7 +93,7 @@
 
           <div class="hero-actions">
             <div class="hero-media">
-              <img class="hero-image" src="Notary_Service.jpg" alt="Notary appointment" />
+              <img class="hero-image" src="hannadunchenko.jpeg" alt="Notary appointment" />
 
               <div class="hero-card" aria-label="Service highlights">
                 <h3>Why clients choose us</h3>
@@ -183,18 +185,6 @@
             <h3>Choose a date and reserve a convenient time slot.</h3>
             <p class="lead">
               Appointments are available for in-office, mobile, and after-hours requests depending on the document type:
-    
-          <!-- Temporary unavailable modal -->
-          <div id="tempUnavailableModal" class="modal-overlay" aria-hidden="true">
-            <div class="modal" role="dialog" aria-modal="true" aria-labelledby="tempUnavailableTitle">
-              <button type="button" class="modal-close" aria-label="Close temporary unavailable modal">×</button>
-              <h2 id="tempUnavailableTitle">Temporary unavailable</h2>
-              <p>Our booking intake is temporarily unavailable. To request a notary urgently, please call or email us directly:</p>
-              <p><a href="tel:+14372396833">+1 (437) 239-6833</a> — tap to call</p>
-              <p>Email: <a href="mailto:hanna@notaryservice.ca">hanna@notaryservice.ca</a></p>
-              <p class="lead" style="margin-top:18px">Bringing the notary directly to your home, office, or neutral venue. While engaging a "mobile notary" involves a higher upfront investment—including full reimbursement for taxi fares and a portal-to-portal hourly rate that applies to all transit time, including traffic gridlock— But! It eliminates the substantial opportunity cost of leaving your workplace. By shifting the burden of travel and traffic delays to the professional, you protect your billable hours, maintain absolute privacy, and secure legally binding notarization on your own terms.</p>
-            </div>
-          </div>
             </p>
           </div>
 
@@ -263,6 +253,50 @@
         </div>
       </section>
 
+      <section id="coverage" class="section container">
+        <div class="section-heading">
+          <h2>Ontario In Office Coverage</h2>
+          <h3>Mobile appointments can be arranged at your address, while online services are available province-wide across Ontario. If it's more convenient, you may choose one of the listed in‑office addresses for an in‑office meeting:</h3>
+        </div>
+
+        <div class="coverage-grid">
+          <div class="locations-card">
+          
+              <ul id="coverageList" class="coverage-list">
+                <li data-address="146 Thirtieth St, Suite 100, Etobicoke, ON M8W 3C4">146 Thirtieth St, Suite 100, Etobicoke, ON M8W 3C4</li>
+                <li data-address="295 The West Mall, Suite 700, Etobicoke, ON M9C 4Z4">295 The West Mall, Suite 700, Etobicoke, ON M9C 4Z4</li>
+                <li data-address="3250 Bloor St W, Etobicoke, ON M8X 2X9">3250 Bloor St W, Etobicoke, ON M8X 2X9</li>
+                <li data-address="25 The West Mall, Etobicoke, ON M9C 1B8">25 The West Mall, Etobicoke, ON M9C 1B8</li>
+                <li data-address="1 Dundas St W, Toronto, ON M5G 1Z3">1 Dundas St W, Toronto, ON M5G 1Z3</li>
+                <li data-address="180 John St, Toronto, ON M5T 1X5">180 John St, Toronto, ON M5T 1X5</li>
+                <li data-address="130 King St W, Toronto, ON M5X 1E3">130 King St W, Toronto, ON M5X 1E3</li>
+                <li data-address="200 Bay St, Toronto, ON M5J 2J2">200 Bay St, Toronto, ON M5J 2J2</li>
+                <li data-address="200 Bay St, Toronto, ON M5J 2S1">200 Bay St, Toronto, ON M5J 2S1</li>
+                <li data-address="151 Yonge St, Toronto, ON M5C 2W7">151 Yonge St, Toronto, ON M5C 2W7</li>
+                <li data-address="36 Toronto St, Toronto, ON M5C 2C5">36 Toronto St, Toronto, ON M5C 2C5</li>
+                <li data-address="111 Queen St E, Toronto, ON M5C 1S2">111 Queen St E, Toronto, ON M5C 1S2</li>
+                <li data-address="4 Robert Speck Pkwy, Mississauga, ON L4Z 1S1">4 Robert Speck Pkwy, Mississauga, ON L4Z 1S1</li>
+                <li data-address="201 City Centre Dr, Mississauga, ON L5B 2T4">201 City Centre Dr, Mississauga, ON L5B 2T4</li>
+                <li data-address="5550 Explorer Dr, Mississauga, ON L4W 5N1">5550 Explorer Dr, Mississauga, ON L4W 5N1</li>
+                <li data-address="2680 Skymark Ave, Mississauga, ON L4W 5L6">2680 Skymark Ave, Mississauga, ON L4W 5L6</li>
+                <li data-address="201 King St, London, ON N6A 1C9">201 King St, London, ON N6A 1C9</li>
+                <li data-address="195 Dufferin Ave, London, ON N6A 1K7">195 Dufferin Ave, London, ON N6A 1K7</li>
+                <li data-address="100 Kellogg Lane, London, ON N5W 0B4">100 Kellogg Lane, London, ON N5W 0B4</li>
+                <li data-address="123 St George St, London, ON N6A 2K4">123 St George St, London, ON N6A 2K4</li>
+                <li data-address="9225 Leslie St, Suite 200, Richmond Hill, ON L4B 3H6">9225 Leslie St, Suite 200, Richmond Hill, ON L4B 3H6</li>
+                <li data-address="550 Hwy 7 E, Suite 358, Richmond Hill, ON L4B 3Z4">550 Hwy 7 E, Suite 358, Richmond Hill, ON L4B 3Z4</li>
+                <li data-address="95 Mural St, Suite 600, Richmond Hill, ON L4B 3G2">95 Mural St, Suite 600, Richmond Hill, ON L4B 3G2</li>
+                <li data-address="330 Hwy 7 E, Suite 300, Richmond Hill, ON L4B 3P8">330 Hwy 7 E, Suite 300, Richmond Hill, ON L4B 3P8</li>
+              </ul>
+              <div class="map-actions">
+                <a id="navBtn" class="btn btn-primary" href="#" target="_blank" rel="noopener">Navigation</a>
+              </div>
+              <div class="locations-actions">
+              </div>
+          </div>
+        </div>
+      </section>
+
       <section id="faq" class="section container">
         <div class="section-heading">
           <h2>Frequently Asked Questions</h2>
@@ -318,58 +352,15 @@
           </div>
         </div>
       </section>
-
-      <section id="coverage" class="section container">
-        <div class="section-heading">
-          <h2>Ontario In Office Coverage</h2>
-          <h3>Ontario In-Office Location appointments can be arranged at your address, while online services are available province-wide across Ontario. For your convenience, in-person meetings can also be scheduled at various professional spaces and business centers upon request. For reference, you may choose one of the addresses listed:</h3>
-        </div>
-
-        <div class="coverage-grid">
-          <div class="locations-card">
-              <ul id="coverageList" class="coverage-list">
-                <li data-address="146 Thirtieth St, Suite 100, Etobicoke, ON M8W 3C4">146 Thirtieth St, Etobicoke, ON M8W 3C4</li>
-                <li data-address="295 The West Mall, Suite 700, Etobicoke, ON M9C 4Z4">295 The West Mall, Etobicoke, ON M9C 4Z4</li>
-                <li data-address="3250 Bloor St W, Etobicoke, ON M8X 2X9">3250 Bloor St W, Etobicoke, ON M8X 2X9</li>
-                <li data-address="25 The West Mall, Etobicoke, ON M9C 1B8">25 The West Mall, Etobicoke, ON M9C 1B8</li>
-                <li data-address="1 Dundas St W, Toronto, ON M5G 1Z3">1 Dundas St W, Toronto, ON M5G 1Z3</li>
-                <li data-address="180 John St, Toronto, ON M5T 1X5">180 John St, Toronto, ON M5T 1X5</li>
-                <li data-address="130 King St W, Toronto, ON M5X 1E3">130 King St W, Toronto, ON M5X 1E3</li>
-                <li data-address="200 Bay St, Toronto, ON M5J 2J2">200 Bay St, Toronto, ON M5J 2J2</li>
-                <li data-address="200 Bay St, Toronto, ON M5J 2S1">200 Bay St, Toronto, ON M5J 2S1</li>
-                <li data-address="151 Yonge St, Toronto, ON M5C 2W7">151 Yonge St, Toronto, ON M5C 2W7</li>
-                <li data-address="36 Toronto St, Toronto, ON M5C 2C5">36 Toronto St, Toronto, ON M5C 2C5</li>
-                <li data-address="111 Queen St E, Toronto, ON M5C 1S2">111 Queen St E, Toronto, ON M5C 1S2</li>
-                <li data-address="4 Robert Speck Pkwy, Mississauga, ON L4Z 1S1">4 Robert Speck Pkwy, Mississauga, ON L4Z 1S1</li>
-                <li data-address="201 City Centre Dr, Mississauga, ON L5B 2T4">201 City Centre Dr, Mississauga, ON L5B 2T4</li>
-                <li data-address="5550 Explorer Dr, Mississauga, ON L4W 5N1">5550 Explorer Dr, Mississauga, ON L4W 5N1</li>
-                <li data-address="2680 Skymark Ave, Mississauga, ON L4W 5L6">2680 Skymark Ave, Mississauga, ON L4W 5L6</li>
-                <li data-address="201 King St, London, ON N6A 1C9">201 King St, London, ON N6A 1C9</li>
-                <li data-address="195 Dufferin Ave, London, ON N6A 1K7">195 Dufferin Ave, London, ON N6A 1K7</li>
-                <li data-address="100 Kellogg Lane, London, ON N5W 0B4">100 Kellogg Lane, London, ON N5W 0B4</li>
-                <li data-address="123 St George St, London, ON N6A 2K4">123 St George St, London, ON N6A 2K4</li>
-                <li data-address="9225 Leslie St, Suite 200, Richmond Hill, ON L4B 3H6">9225 Leslie St, Richmond Hill, ON L4B 3H6</li>
-                <li data-address="550 Hwy 7 E, Suite 358, Richmond Hill, ON L4B 3Z4">550 Hwy 7 E, Richmond Hill, ON L4B 3Z4</li>
-                <li data-address="95 Mural St, Suite 600, Richmond Hill, ON L4B 3G2">95 Mural St, Richmond Hill, ON L4B 3G2</li>
-                <li data-address="330 Hwy 7 E, Suite 300, Richmond Hill, ON L4B 3P8">330 Hwy 7 E, Richmond Hill, ON L4B 3P8</li>
-              </ul>
-              <div class="map-actions">
-                <a id="navBtn" class="btn btn-primary" href="#" target="_blank" rel="noopener">Navigation</a>
-              </div>
-              <div class="locations-actions">
-              </div>
-          </div>
-        </div>
-      </section>
     </main>
 
     <footer class="footer">
       <div class="container footer-content">
-        <a class="footer-email" href="mailto:hanna@notaryservice.ca">
+        <a class="footer-email" href="/cdn-cgi/l/email-protection#157d747b7b74557b7a6174676c667067637c76703b7674">
           <svg class="footer-email-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
           </svg>
-          hanna@notaryservice.ca
+          <span class="__cf_email__" data-cfemail="076f666969664769687366757e746275716e6462296466">[email&#160;protected]</span>
         </a>
         <div>
           <p>© 2026 Notary Service</p>
@@ -392,14 +383,12 @@
         <p>We act as an independent notary service in Ontario and are not responsible for third-party travel or delivery providers. All documents are verified and notarized in accordance with provincial requirements.</p>
         <h3>Trademark notice</h3>
         <p>Uber is a registered trademark of Uber Technologies, Inc. This website is an independent service and is not affiliated with Uber Technologies, Inc.</p>
-        <h3>Location information disclaimer</h3>
-        <p>All addresses and location data provided on this website are for informational and reference purposes only. We do not warrant the absolute accuracy, completeness, or timeliness of this information. Users are advised to verify locations independently before visiting.</p>
         <h3>Privacy Policy</h3>
         <p>Your privacy matters to us. We collect only the minimum personal information required to process appointment requests and to communicate with you about your notarization.</p>
         <h3>Information use</h3>
         <p>Contact details, preferred appointment dates, and document information are used solely to fulfill service requests and to provide follow-up support. We do not share your personal information with third parties unless required by law.</p>
         <h3>Security</h3>
-        <p>We take reasonable steps to protect your information in storage and transit. If you have questions about privacy practices, please contact us at hanna@notaryservice.ca.</p>
+        <p>We take reasonable steps to protect your information in storage and transit. If you have questions about privacy practices, please contact us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f29c9d8693808bb29a939c9c9396879c919a979c999ddc919d9f">[email&#160;protected]</a>.</p>
       </div>
     </div>
 
@@ -416,8 +405,6 @@
         <p>We act as an independent notary service in Ontario and are not responsible for third-party travel or delivery providers. All documents are verified and notarized in accordance with provincial requirements.</p>
         <h3>Trademark notice</h3>
         <p>Uber is a registered trademark of Uber Technologies, Inc. This website is an independent service and is not affiliated with Uber Technologies, Inc.</p>
-        <h3>Location information disclaimer</h3>
-        <p>All addresses and location data provided on this website are for informational and reference purposes only. We do not warrant the absolute accuracy, completeness, or timeliness of this information. Users are advised to verify locations independently before visiting.</p>
       </div>
     </div>
 
@@ -429,12 +416,12 @@
         <h3>Information use</h3>
         <p>Contact details, preferred appointment dates, and document information are used solely to fulfill service requests and to provide follow-up support. We do not share your personal information with third parties unless required by law.</p>
         <h3>Security</h3>
-        <p>We take reasonable steps to protect your information in storage and transit. If you have questions about privacy practices, please contact us at hanna@notaryservice.ca.</p>
+        <p>We take reasonable steps to protect your information in storage and transit. If you have questions about privacy practices, please contact us at <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5739382336252e173f36393936332239343f32393c387934383a">[email&#160;protected]</a>.</p>
       </div>
     </div>
 
     <!-- Leaflet scripts removed (map block deleted) -->
-    <script src="config.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="config.js"></script>
     <!-- Analytics loader: will inject analytics snippet if SHARED_SETTINGS.analyticsId is set in config.js -->
     <script>
       (function(){

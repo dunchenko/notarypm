@@ -321,7 +321,7 @@ function renderTimeSlots(iso){
 
 function confirmBooking(iso, time){
   const body = encodeURIComponent(`I'd like to book a notary appointment on ${iso} at ${time}. Please confirm availability and fees.`);
-  window.location.href = `mailto:notary@hannadunchenko.com?subject=Booking%20Request&body=${body}`;
+  window.location.href = `mailto:hanna@notaryservice.ca?subject=Booking%20Request&body=${body}`;
 }
 
 // Select a time slot: populate the intake form inputs and mark the slot visually
@@ -575,6 +575,20 @@ intakeFields.forEach(field => {
 if(intakeForm){
   intakeForm.addEventListener('submit', (e)=>{
     e.preventDefault();
+    // Show temporary-unavailable modal instead of submitting
+    const modal = document.getElementById('tempUnavailableModal');
+    if(modal){
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('modal-open');
+      // focus the modal title for accessibility if possible
+      const title = modal.querySelector('#tempUnavailableTitle');
+      if(title && typeof title.focus === 'function') title.focus();
+      intakeStatus.textContent = '';
+      return;
+    }
+
+    // Fallback: original submit behaviour (if modal not present)
     const data = serializeForm(intakeForm);
     if(!data.fullName || !data.email){ intakeStatus.textContent='Name and email are required.'; return; }
     if(!validateEmail(data.email)){ intakeStatus.textContent='Please enter a valid email.'; return; }
