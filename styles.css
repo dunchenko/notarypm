@@ -246,6 +246,8 @@ label{color:var(--text)}
 .attachment-dropzone.has-files:hover,.attachment-dropzone.has-files.drag-active{transform:none;border:var(--control-border-width) dashed #000;background:#fff;box-shadow:none}
 .attachment-dropzone.has-files .attachment-dropzone__content p,.attachment-dropzone.has-files .attachment-status{color:rgba(11,11,11,0.8)}
 .attachment-dropzone__icon{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#000;box-shadow:0 8px 20px rgba(11,11,11,0.12);font-size:1.25rem}
+.attachment-dropzone__icon svg{width:20px;height:20px;fill:currentColor;display:block}
+
 .attachment-dropzone__content strong{display:block;font-size:1rem;font-weight:700}
 .attachment-dropzone__content p{margin:4px 0 0;color:var(--muted);font-size:0.92rem;line-height:1.4}
 .attachment-status{font-size:0.9rem;color:var(--muted);font-weight:600}
