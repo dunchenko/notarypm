@@ -156,6 +156,7 @@ button.calendar-day, .calendar-day{height:auto !important;min-height:0 !importan
 .section-heading .eyebrow{color:var(--accent);font-weight:600}
 #faq{padding-left:5px;padding-right:5px}
 #faq .section-heading{text-align:center}
+#coverage{padding-left:5px;padding-right:5px}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:18px}
 .info-card{background:var(--card);padding:18px;border-radius:10px}
 .booking-section .booking-grid{display:grid;grid-template-columns:1fr;gap:20px;align-items:start;max-width:760px;margin:0 auto}
