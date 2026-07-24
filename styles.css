@@ -381,8 +381,8 @@ label{color:var(--text)}
 .faq-toggle svg path{fill:none !important;stroke:#0b0b0b !important;stroke-width:3.5 !important;stroke-linecap:round;stroke-linejoin:round}
 .faq-question.active .faq-toggle{transform:rotate(45deg)}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 18px}
-.faq-answer p{font-size:1.1rem;line-height:1.4;color:var(--text);margin:2rem 0 0}
-.faq-question.active ~ .faq-answer{max-height:600px;padding:18px 18px 18px 18px}
+.faq-answer p.answers{font-size:1.1rem;line-height:1.4;color:var(--text);margin:0}
+.faq-question.active ~ .faq-answer{max-height:1000px;padding:18px 18px 18px 18px}
 
 /* Control sizing driven by variables (JS may update these at runtime) */
 .intake-form input, .intake-form input[type=date], .intake-form input[type=time], .custom-select-header {
