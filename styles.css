@@ -588,3 +588,42 @@ label{color:var(--text)}
 .modal-close:hover{transform:scale(1.05);background:transparent}
 .modal-close:focus{outline:none}
 .map-actions{display:flex;justify-content:center;margin-top:24px}
+/* Hypnotic lamp + link styles */
+.hypno-light{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  margin-top:12px;
+  color:var(--card);
+}
+.hypno-text{color:#fff;font-weight:700;font-size:15px;line-height:1.2}
+.hypno-text a{color:#fff;font-weight:700;text-decoration:underline;margin-left:6px}
+.hypno-svg{width:48px;height:48px;flex:0 0 48px}
+.hypno-svg .pulse{transform-origin:60px 44px;animation:pulse 1.8s ease-in-out infinite}
+.hypno-svg .ring{transform-origin:60px 44px;animation:spin 4s linear infinite;mix-blend-mode:screen}
+.hypno-svg .core{animation:slowGlow 3s ease-in-out infinite}
+
+@keyframes pulse{
+  0%{transform:scale(1);opacity:0.98}
+  40%{transform:scale(1.35);opacity:0.6}
+  60%{transform:scale(1.15);opacity:0.9}
+  100%{transform:scale(1);opacity:0.98}
+}
+@keyframes spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+@keyframes slowGlow{
+  0%{filter:blur(0px);opacity:0.98}
+  50%{filter:blur(4px);opacity:0.72}
+  100%{filter:blur(0px);opacity:0.98}
+}
+
+@media (max-width:520px){
+  .hypno-text{font-size:14px}
+  .hypno-svg{width:40px;height:40px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hypno-svg .pulse,.hypno-svg .ring,.hypno-svg .core{animation:none}
+}
