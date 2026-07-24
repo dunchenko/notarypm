@@ -126,7 +126,7 @@ main{flex:1}
 .hamburger span{background:#000}
 .hamburger.active span{background:#fff}
 body.menu-open{overflow:hidden;height:100vh}
-.hero{padding:12px 0 32px}
+.hero{padding:12px 5px 32px}
 .hero-grid{display:grid;grid-template-columns:1fr;gap:32px;align-items:start;justify-content:center}
 .hero-copy{width:100%;margin:0 auto}
 .hero-copy-text{max-width:760px}
