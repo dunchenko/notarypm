@@ -1,3 +1,27 @@
 User-agent: *
 Allow: /
+Allow: /index.html
+Allow: /notary-*.html
+Allow: /services/*.html
+Allow: *.css
+Allow: *.js
+Allow: *.jpg
+Allow: *.png
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /.vscode/
+Disallow: /.history/
+Disallow: /.*
+Crawl-delay: 1
+
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
 Sitemap: https://notaryservice.ca/sitemap.xml
+Sitemap: https://notaryservice.ca/sitemap-cities.xml
+Sitemap: https://notaryservice.ca/sitemap-services.xml
