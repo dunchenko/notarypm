@@ -97,16 +97,14 @@ main{flex:1}
 .container{max-width:var(--container);margin:0 auto;padding:0}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 0 12px;position:relative;width:100%;flex-wrap:wrap}
 .nav-left{display:flex;align-items:center;gap:12px;min-width:0;flex:1 1 auto;flex-wrap:wrap;justify-content:flex-start;max-width:100%}
-.nav.container{max-width:var(--container);margin:0 auto;padding-left:10px;padding-right:10px}
+.nav.container{max-width:var(--container);margin:0 auto;padding:0}
 .brand{font-weight:800;color:var(--text);text-decoration:none;font-size:clamp(2rem,4vw,2.4rem);line-height:1;padding:6px 0;margin-left:0;letter-spacing:-0.02em;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;white-space:normal;overflow-wrap:break-word;word-break:break-word;flex:1 1 auto;min-width:0;max-width:100%}
 .nav-links a{margin-left:18px;color:var(--muted);text-decoration:none}
 
 /* Minimalist, full-width nav styling */
 .nav{background:transparent;box-shadow:none}
 .nav-links{display:flex;align-items:center;gap:18px;background:transparent;padding:0;border:none;flex-wrap:wrap;justify-content:flex-end;grid-column:3;justify-self:end}
-.nav-links .phone-group{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .nav-links a{padding:8px 6px;white-space:nowrap}
-.nav-links .phone-title{color:var(--accent) !important;font-weight:800 !important;text-decoration:none !important;white-space:nowrap}
 .nav-links .phone-link{color:var(--accent) !important;font-weight:800 !important;text-decoration:none !important}
 .hamburger{z-index:70}
 
@@ -131,6 +129,18 @@ main{flex:1}
   font-weight:800;
   font-size:clamp(1.4rem,4vw,2rem);
   letter-spacing:0.02em;
+}
+.nav-links.menu-theme-bw .menu-overlay-label,
+.nav-links.menu-theme-bw.active .menu-overlay-label {
+  position:absolute;
+  top:18px;
+  left:86px;
+  color:#fff;
+  font-size:0.95rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  font-weight:800;
+  white-space:nowrap;
 }
 .hamburger{z-index:10001}
 .hamburger span{background:#000}
