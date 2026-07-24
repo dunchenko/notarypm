@@ -658,7 +658,7 @@ label{color:var(--text)}
   box-shadow:none;
   background:transparent;
 }
-.hypno-text{color:#fff;font-weight:700;font-size:15px;line-height:1.2;text-align:center}
+.hypno-text{color:#fff;font-weight:700;font-size:15px;line-height:1.2;text-align:right;margin-top:18px;display:block}
 .hypno-text a{color:#fff;font-weight:700;text-decoration:underline;margin-left:0}
 .hypno-svg{width:96px;height:96px;flex:0 0 96px;transform:translateY(0);border:none;box-shadow:none;background:transparent}
 .hypno-svg .pulse{transform-origin:60px 44px;animation:pulse 1.8s ease-in-out infinite}
