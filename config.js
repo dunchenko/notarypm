@@ -4,7 +4,7 @@
 // Leave as an empty string to use Leaflet/OSM fallback (or fallback link) instead.
 window.GOOGLE_MAPS_API_KEY = '';
 
-// Shared settings for the primary Notary Service domain
+// Shared settings for the primary notaryservice.ca domain
 window.SHARED_SETTINGS = {
 	// Primary domain to sync with
 	mainDomain: 'https://notaryservice.ca',
@@ -21,3 +21,4 @@ window.SHARED_SETTINGS = {
 
 // Force use of Leaflet/OpenStreetMap even if Google key is present (set true to prefer OSM)
 window.FORCE_LEAFLET = false;
+

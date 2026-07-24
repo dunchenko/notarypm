@@ -104,7 +104,9 @@ main{flex:1}
 /* Minimalist, full-width nav styling */
 .nav{background:transparent;box-shadow:none}
 .nav-links{display:flex;align-items:center;gap:18px;background:transparent;padding:0;border:none;flex-wrap:wrap;justify-content:flex-end;grid-column:3;justify-self:end}
+.nav-links .phone-group{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
 .nav-links a{padding:8px 6px;white-space:nowrap}
+.nav-links .phone-title{color:var(--accent) !important;font-weight:800 !important;text-decoration:none !important;white-space:nowrap}
 .nav-links .phone-link{color:var(--accent) !important;font-weight:800 !important;text-decoration:none !important}
 .hamburger{z-index:70}
 
@@ -121,6 +123,14 @@ main{flex:1}
 }
 .nav-links.menu-theme-bw .phone-link, .nav-links.menu-theme-bw.active .phone-link {
   color:#fff !important;
+}
+.nav-links.menu-theme-bw .phone-title, .nav-links.menu-theme-bw.active .phone-title {
+  color:#fff !important;
+  display:block;
+  text-transform:uppercase;
+  font-weight:800;
+  font-size:clamp(1.4rem,4vw,2rem);
+  letter-spacing:0.02em;
 }
 .hamburger{z-index:10001}
 .hamburger span{background:#000}
@@ -361,7 +371,7 @@ label{color:var(--text)}
 .faq-toggle svg path{fill:none !important;stroke:#0b0b0b !important;stroke-width:3.5 !important;stroke-linecap:round;stroke-linejoin:round}
 .faq-question.active .faq-toggle{transform:rotate(45deg)}
 .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 18px}
-.faq-answer p{font-size:1.1rem;line-height:1.4;color:var(--text);margin:0}
+.faq-answer p{font-size:1.1rem;line-height:1.4;color:var(--text);margin:2rem 0 0}
 .faq-question.active ~ .faq-answer{max-height:600px;padding:18px 18px 18px 18px}
 
 /* Control sizing driven by variables (JS may update these at runtime) */
@@ -600,6 +610,7 @@ label{color:var(--text)}
   right: 18px;
   width: 40px;
   height: 40px;
+  min-height: 40px;
   padding: 0;
   border: none;
   border-radius: 8px;
@@ -626,17 +637,21 @@ label{color:var(--text)}
 .map-actions{display:flex;justify-content:center;margin-top:24px}
 /* Hypnotic lamp + link styles */
 .hypno-light{
-  display:inline-flex;
+  display:flex;
+  flex-direction:column;
   align-items:center;
+  justify-content:center;
   gap:12px;
-  margin-top:12px;
+  margin:0 auto 24px;
   color:var(--card);
+  border:none;
+  box-shadow:none;
+  background:transparent;
 }
-.hypno-text{color:#fff;font-weight:700;font-size:15px;line-height:1.2}
-.hypno-text a{color:#fff;font-weight:700;text-decoration:underline;margin-left:6px}
-.hypno-svg{width:48px;height:48px;flex:0 0 48px}
+.hypno-text{color:#fff;font-weight:700;font-size:15px;line-height:1.2;text-align:center}
+.hypno-text a{color:#fff;font-weight:700;text-decoration:underline;margin-left:0}
+.hypno-svg{width:96px;height:96px;flex:0 0 96px;transform:translateY(0);border:none;box-shadow:none;background:transparent}
 .hypno-svg .pulse{transform-origin:60px 44px;animation:pulse 1.8s ease-in-out infinite}
-.hypno-svg .ring{transform-origin:60px 44px;animation:spin 4s linear infinite;mix-blend-mode:screen}
 .hypno-svg .core{animation:slowGlow 3s ease-in-out infinite}
 
 @keyframes pulse{

@@ -1,6 +1,6 @@
 https://dunchenko.github.io/notarypm/
 
-Notary Service — Local preview
+notaryservice.ca — Local preview
 
 How to enable Google Maps iframe embed
 
@@ -38,7 +38,7 @@ Notes and limits
 - Nominatim usage policy forbids heavy automated use — consider paid geocoding or caching results on your server.
 - This approach completely avoids Google Cloud Console and API keys.
 
-How to make Notary Services a satellite of hannadunchenko.com
+How to make notaryservice.cas a satellite of hannadunchenko.com
 
 - Provide shared settings in `Notary PM/config.js`:
 	- `window.SHARED_SETTINGS.mainDomain` — primary domain.
@@ -70,3 +70,4 @@ Notes
 - Make sure billing is enabled for the project that owns the key. Without billing, the map may not render.
 - Restricting by referrer prevents the key from being used on other domains, improving security.
 - For production, prefer server-side usage or environment-based injection rather than committing the key to source control.
+

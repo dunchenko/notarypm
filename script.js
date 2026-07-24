@@ -80,6 +80,15 @@
       }
     });
   });
+
+  const hypnoSvg = document.querySelector('#tempUnavailableModal .hypno-svg');
+  if(hypnoSvg){
+    hypnoSvg.style.cursor = 'pointer';
+    hypnoSvg.addEventListener('click', () => {
+      const modal = document.getElementById('tempUnavailableModal');
+      if(modal) closeModal(modal);
+    });
+  }
 })();
 
 // Initialize custom selects first
@@ -734,7 +743,7 @@ if(intakeForm){
     const body = encodeURIComponent(
       `Name: ${data.fullName}\nEmail: ${data.email}\nPhone: ${data.phone}\nService: ${data.service}\nPreferred: ${data.preferredDate} ${data.preferredTime}\nAddress: ${data.address}\nAttachments: ${attachments}\nNotes:\n${data.message}`
     );
-    window.location.href = `mailto:${window.SHARED_SETTINGS?.contact?.email || 'hello@notarypm.ca'}?subject=Notary%20Intake%20Request&body=${body}`;
+    window.location.href = `mailto:${window.SHARED_SETTINGS?.contact?.email || 'hello@notaryservice.ca'}?subject=Notary%20Intake%20Request&body=${body}`;
     intakeStatus.textContent='Request prepared — your mail client should open. Saved locally.';
     intakeForm.reset();
     resetAttachmentUI();
@@ -742,3 +751,4 @@ if(intakeForm){
   });
   if(intakeClear){ intakeClear.addEventListener('click', ()=>{ intakeForm.reset(); intakeStatus.textContent='Form cleared.'; resetAttachmentUI(); updateAllFilledStates(); }); }
 }
+
