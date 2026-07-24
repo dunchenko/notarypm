@@ -376,6 +376,29 @@ async function geocode(address){
   return null;
 }
 
+// Referral link helper: append current page URL as `referrer` query param
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const refLink = document.querySelector('.hypno-text a');
+    if(!refLink) return;
+
+    refLink.addEventListener('click', (e) => {
+      // Build a URL that preserves the original host/path and appends referrer
+      const original = refLink.getAttribute('href') || refLink.href;
+      // Use current page URL as the referrer (full URL)
+      const ref = encodeURIComponent(window.location.href);
+      const separator = original.includes('?') ? '&' : '?';
+      const newUrl = `${original}${separator}referrer=${ref}`;
+
+      // Open in a new tab/window to preserve target semantics and prevent navigation interruption
+      window.open(newUrl, '_blank', 'noopener');
+      e.preventDefault();
+    });
+  } catch (err) {
+    console.warn('Referral link handler failed', err);
+  }
+});
+
 async function setMapForAddress(address){
   if(!address) return;
   // set navigation link to Google Maps directions
