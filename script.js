@@ -84,7 +84,12 @@
   const hypnoSvg = document.querySelector('#tempUnavailableModal .hypno-svg');
   if(hypnoSvg){
     hypnoSvg.style.cursor = 'pointer';
+    const audio = new Audio('theend.mp3');
     hypnoSvg.addEventListener('click', () => {
+      audio.currentTime = 0;
+      audio.play().catch(() => {
+        // play may be blocked until user interacts with page, but click should count
+      });
       const modal = document.getElementById('tempUnavailableModal');
       if(modal) closeModal(modal);
     });
