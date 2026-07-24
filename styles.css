@@ -584,9 +584,35 @@ label{color:var(--text)}
 .modal h3{margin-top:24px;font-size:1.2rem}
 .modal p{margin:18px 0 0;line-height:1.7;color:rgba(255,255,255,0.92)}
 .modal p a[href^="tel"], .modal p a[href^="mailto"], .modal a.phone-link{color:#fff;font-weight:700;text-decoration:underline}
-.modal-close{position:absolute;top:18px;right:18px;padding:10px;border:none;border-radius:0;background:transparent;color:#fff;font-size:1.3rem;line-height:1;display:grid;place-items:center;cursor:pointer;transition:transform .2s ease}
-.modal-close:hover{transform:scale(1.05);background:transparent}
-.modal-close:focus{outline:none}
+.modal-close{
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, box-shadow .12s ease;
+}
+
+.modal-close:hover{
+  transform: scale(1.03);
+  background: rgba(255,255,255,0.06);
+}
+
+.modal-close:focus{
+  outline: 6px solid rgba(255,255,255,0.12);
+  outline-offset: 3px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
 .map-actions{display:flex;justify-content:center;margin-top:24px}
 /* Hypnotic lamp + link styles */
 .hypno-light{
@@ -624,6 +650,27 @@ label{color:var(--text)}
   .hypno-svg{width:40px;height:40px}
 }
 
-@media (prefers-reduced-motion:reduce){
-  .hypno-svg .pulse,.hypno-svg .ring,.hypno-svg .core{animation:none}
+/* Force hypno link appearance in all states and provide visible focus ring */
+.hypno-light .hypno-text a,
+.hypno-light .hypno-text a:link,
+.hypno-light .hypno-text a:visited,
+.hypno-light .hypno-text a:hover,
+.hypno-light .hypno-text a:focus,
+.hypno-light .hypno-text a:active{
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+  margin-left: 6px !important;
 }
+.hypno-light .hypno-text a:focus-visible{
+  box-shadow: 0 0 0 4px rgba(255,255,255,0.12);
+  border-radius: 4px;
+}
+
+/* NOTE: User requested the hypnotic lamp animate on all devices. This removes
+   the reduced-motion suppression for the lamp so animations run even when
+   the OS reports prefers-reduced-motion. Be aware this overrides user
+   accessibility preference by design. */
+.hypno-svg .pulse{transform-origin:60px 44px;animation:pulse 1.8s ease-in-out infinite}
+.hypno-svg .ring{transform-origin:60px 44px;animation:spin 4s linear infinite;mix-blend-mode:screen}
+.hypno-svg .core{animation:slowGlow 3s ease-in-out infinite}
