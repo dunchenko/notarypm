@@ -479,6 +479,23 @@ function resetNearbyResults(){
 // Referral link helper: append current page URL as `referrer` query param
 document.addEventListener('DOMContentLoaded', () => {
   try {
+    const startAudio = new Audio('start.mp3');
+    const playStartAudio = () => {
+      startAudio.currentTime = 0;
+      startAudio.play().catch(err => {
+        console.warn('start.mp3 playback blocked or failed:', err);
+      });
+    };
+
+    playStartAudio();
+    document.addEventListener('click', () => {
+      playStartAudio();
+    }, { once: true });
+  } catch (err) {
+    console.warn('Failed to initialize start.mp3 playback:', err);
+  }
+
+  try {
     const refLink = document.querySelector('.hypno-text a');
     if(!refLink) return;
 
