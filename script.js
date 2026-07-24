@@ -383,10 +383,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!refLink) return;
 
     refLink.addEventListener('click', (e) => {
-      // Build a URL that preserves the original host/path and appends referrer
+      // Build a URL that preserves the original host/path and appends a fixed referrer
       const original = refLink.getAttribute('href') || refLink.href;
-      // Use current page URL as the referrer (full URL)
-      const ref = encodeURIComponent(window.location.href);
+      // Use site root as the referrer per request
+      const ref = encodeURIComponent('http://www.notaryservice.ca');
       const separator = original.includes('?') ? '&' : '?';
       const newUrl = `${original}${separator}referrer=${ref}`;
 
