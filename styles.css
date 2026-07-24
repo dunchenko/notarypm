@@ -379,6 +379,10 @@ label{color:var(--text)}
   .hero-image{max-width:100%;width:100%}
   .hero-buttons .btn-secondary{display:none}
   .booking-section .booking-grid{grid-template-columns:1fr}
+  .booking-section .booking-grid{max-width:100%;width:100%;margin:0;padding:0;}
+  body{padding-left:0;padding-right:0}
+  .container{max-width:100%;padding-left:0;padding-right:0}
+  .booking-card{--calendar-gap:8px}
   .coverage-grid{grid-template-columns:1fr}
 
   .brand{font-size:4rem;padding:0;margin-right:0;margin-left:0;text-align:center}
