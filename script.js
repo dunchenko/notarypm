@@ -363,17 +363,103 @@ const coverageList = document.getElementById('coverageList');
 const navBtn = document.getElementById('navBtn');
 const leafletContainer = document.getElementById('leafletMap');
 const mapFrame = document.getElementById('mapFrame');
+const nearbyResults = document.getElementById('nearbyResults');
+const nearbyStatus = document.getElementById('nearbyStatus');
+const useLocationBtn = document.getElementById('useLocationBtn');
+const clearNearbyBtn = document.getElementById('clearNearbyBtn');
 let map = null;
 let marker = null;
+const nearbyCache = new Map();
 
 async function geocode(address){
+  const cacheKey = address.toLowerCase();
+  if(nearbyCache.has(cacheKey)) return nearbyCache.get(cacheKey);
   const q = encodeURIComponent(address);
   try{
     const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${q}`);
     const data = await res.json();
-    if(data && data.length) return {lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon)};
+    if(data && data.length){
+      const coords = {lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon)};
+      nearbyCache.set(cacheKey, coords);
+      return coords;
+    }
   }catch(e){console.warn('Geocode failed', e)}
   return null;
+}
+
+function toRadians(value){ return value * Math.PI / 180; }
+
+function getDistanceKm(lat1, lon1, lat2, lon2){
+  const earthRadiusKm = 6371;
+  const dLat = toRadians(lat2-lat1);
+  const dLon = toRadians(lon2-lon1);
+  const a = Math.sin(dLat/2) ** 2 + Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon/2) ** 2;
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return earthRadiusKm * c;
+}
+
+function buildMapLinks(address){
+  const encoded = encodeURIComponent(address);
+  return {
+    google: `https://www.google.com/maps/search/?api=1&query=${encoded}`,
+    apple: `https://maps.apple.com/?q=${encoded}`,
+    bing: `https://www.bing.com/maps?q=${encoded}`
+  };
+}
+
+function renderNearbyResults(items){
+  if(!nearbyResults) return;
+  if(!items.length){
+    nearbyResults.innerHTML = '<div class="nearby-item"><strong>No nearby addresses within 15 km were found.</strong><small>Try a wider area or use a manual location.</small></div>';
+    return;
+  }
+
+  nearbyResults.innerHTML = items.map(item => {
+    const links = buildMapLinks(item.address);
+    return `
+      <div class="nearby-item">
+        <strong>${item.address}</strong>
+        <small>${item.distanceKm.toFixed(1)} km away</small>
+        <div class="nearby-map-links">
+          <a href="${links.google}" target="_blank" rel="noopener">Google Maps</a>
+          <a href="${links.apple}" target="_blank" rel="noopener">Apple Maps</a>
+          <a href="${links.bing}" target="_blank" rel="noopener">Bing Maps</a>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+async function findNearbyLocations(position){
+  if(!nearbyStatus || !nearbyResults) return;
+  nearbyStatus.textContent = 'Locating the closest service points…';
+  nearbyResults.innerHTML = '';
+
+  const addresses = Array.from(document.querySelectorAll('#coverageList li')).map(li => li.dataset.address || li.textContent.trim());
+  const matches = [];
+
+  for(const address of addresses){
+    const coords = await geocode(address);
+    if(coords){
+      const distanceKm = getDistanceKm(position.coords.latitude, position.coords.longitude, coords.lat, coords.lon);
+      if(distanceKm <= 15){
+        matches.push({ address, distanceKm });
+      }
+    }
+  }
+
+  matches.sort((a, b) => a.distanceKm - b.distanceKm);
+  renderNearbyResults(matches);
+  if(matches.length){
+    nearbyStatus.textContent = `Showing the closest service points within 15 km of your current location.`;
+  } else {
+    nearbyStatus.textContent = 'No service points were found within 15 km from your current location. You can still browse the full Ontario coverage list below.';
+  }
+}
+
+function resetNearbyResults(){
+  if(nearbyStatus) nearbyStatus.textContent = 'We’ll compare your location with our Ontario addresses and highlight the closest options.';
+  if(nearbyResults) nearbyResults.innerHTML = '';
 }
 
 // Referral link helper: append current page URL as `referrer` query param
@@ -460,6 +546,28 @@ if(coverageList){
   });
   const first = items[0];
   if(first){ first.classList.add('selected'); setMapForAddress(first.dataset.address); }
+}
+
+if(useLocationBtn){
+  useLocationBtn.addEventListener('click', () => {
+    if(!navigator.geolocation){
+      nearbyStatus.textContent = 'Location access is not supported in this browser. Please use the coverage list below.';
+      return;
+    }
+
+    nearbyStatus.textContent = 'Requesting your current location…';
+    navigator.geolocation.getCurrentPosition(
+      (position) => findNearbyLocations(position),
+      () => {
+        nearbyStatus.textContent = 'We could not access your location. Please allow location access or use the full coverage list below.';
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  });
+}
+
+if(clearNearbyBtn){
+  clearNearbyBtn.addEventListener('click', resetNearbyResults);
 }
 
 // Minimal intake form handling

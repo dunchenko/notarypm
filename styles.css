@@ -299,6 +299,16 @@ label{color:var(--text)}
 .coverage-list li.selected{background:var(--accent);color:white}
 .map-actions{display:block;margin-bottom:12px}
 .map-actions .btn{display:flex;width:100%;min-width:auto;justify-content:center;align-items:center}
+.nearby-card{background:var(--card);padding:18px;border-radius:16px;box-shadow:var(--shadow)}
+.nearby-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px}
+.nearby-status{color:var(--muted);margin:0 0 12px;line-height:1.5}
+.nearby-results{display:grid;gap:12px}
+.nearby-item{background:#fff;border:2px solid rgba(11,11,11,0.1);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.nearby-item strong{font-size:1.05rem}
+.nearby-item small{color:var(--muted)}
+.nearby-actions a,.nearby-actions button{height:auto;min-height:48px;padding:12px 16px}
+.nearby-map-links{display:flex;flex-wrap:wrap;gap:8px}
+.nearby-map-links a{display:inline-flex;align-items:center;justify-content:center;padding:8px 10px;border-radius:999px;background:#000;color:#fff;text-decoration:none;font-weight:600;font-size:0.95rem}
 
 @media (max-width: 700px) {
   .coverage-list li {
